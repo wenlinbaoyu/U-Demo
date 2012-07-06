@@ -12,7 +12,15 @@ Library/expandedItems
 Library/metadata
 Library/previews
 Library/guidmapper
-Temp
+Library/ProjectSettings.asset
+
+
+#########
+ProjectSettings/ProjectSettings.asset
+
+###############
+Assets/Textures
+
 *.csproj
 *.pidb
 *.sln
