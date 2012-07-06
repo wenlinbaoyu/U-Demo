@@ -23,6 +23,10 @@ ModelImporter:
     7400036: attack_2 //// Role_Anim
     7400038: attack_3 //// Role_Anim
     7400040: idle_1 //// Role_Anim
+    7400042: jump_1 //// Role_Anim
+    7400044: jump_2 //// Role_Anim
+    7400046: jump_3 //// Role_Anim
+    7400048: jump_4 //// Role_Anim
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -88,11 +92,6 @@ ModelImporter:
       lastFrame: 212
       wrapMode: 2
       loop: 0
-    - name: jump
-      firstFrame: 213
-      lastFrame: 249
-      wrapMode: 2
-      loop: 0
     - name: like_b
       firstFrame: 250
       lastFrame: 270
@@ -131,6 +130,26 @@ ModelImporter:
     - name: attack_3
       firstFrame: 496
       lastFrame: 546
+      wrapMode: 2
+      loop: 0
+    - name: jump_1
+      firstFrame: 213
+      lastFrame: 222
+      wrapMode: 2
+      loop: 0
+    - name: jump_2
+      firstFrame: 222
+      lastFrame: 229
+      wrapMode: 2
+      loop: 0
+    - name: jump_3
+      firstFrame: 229
+      lastFrame: 233
+      wrapMode: 2
+      loop: 0
+    - name: jump_4
+      firstFrame: 233
+      lastFrame: 249
       wrapMode: 2
       loop: 0
   meshes:
