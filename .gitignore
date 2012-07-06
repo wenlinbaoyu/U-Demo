@@ -23,7 +23,7 @@ Temp
 
 ##############
 
-
+*.userprefs
 *.unityproj
 *.csproj
 *.pidb
