@@ -23,6 +23,8 @@ Temp
 
 ##############
 
+
+*.unityproj
 *.csproj
 *.pidb
 *.sln
