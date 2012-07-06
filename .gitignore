@@ -19,7 +19,9 @@ Library/ProjectSettings.asset
 ProjectSettings/ProjectSettings.asset
 
 ###############
+Temp
 
+##############
 
 *.csproj
 *.pidb
