@@ -39,13 +39,23 @@ public class AnimationManager
 	//加载动作
 	private IBaseAnimation loadAM( AID aid )
 	{
-		IBaseAnimation animation = null;
+		Type animationType = null;
 		if ( aid != null )
 		{
-			animation = AnimationKeyValue.getSingleton().getAnimation( aid ) as IBaseAnimation;
-			if ( animation != null )
+			animationType = AnimationKeyValue.getSingleton().getAnimation( aid );
+			if ( animationType != null && animationType == IBaseAnimation )
 			{
-				_hashtable.Add( aid.id,  animation);
+				if ( animationType.BaseType == AniamtionContainer )
+				{
+					animationType am = new animationType();
+					( am as AniamtionContainer ).start( aid );
+					_hashtable.Add( aid.id,  am );
+				}
+				else
+				{
+					_hashtable.Add( aid.id,  animationType );
+				}
+				
 			}
 			else
 			{
@@ -62,7 +72,7 @@ public class AnimationManager
 		IBaseAnimation am = getAnimation( aid );		
 		if ( am != null &&  _animation != null)
 		{
-			am.play( _animation );
+			am.play( _animation, null );
 		}
 		else
 		{

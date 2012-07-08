@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof(Rigidbody))]
+[RequireComponent (typeof(Animation))]
+
 public class playerController : MonoBehaviour 
 {
 	
@@ -55,6 +57,7 @@ public class playerController : MonoBehaviour
 		}
 
 		rigibodyTransform  = rigidbody.transform;
+		rigidbody.useGravity = false;
 		rigidbody.freezeRotation = true;
 	}
 	
@@ -121,8 +124,6 @@ public class playerController : MonoBehaviour
 		}
 		
 		//Vector3 movement = rigibodyTransform.forward ;
-		
-
 	}
 	
 	
@@ -145,17 +146,27 @@ public class playerController : MonoBehaviour
 					ForceMode.VelocityChange
 				);
 				
-				_mgr.play( new AID("jump") );
+				//_mgr.play( new AID("jump") );
+				_mgr.play( AIDManager.getSingleton().getAID( 1, "jump"));
 			}
-			else if ( isMoveKeyDown())
+			else
 			{
-				_mgr.play( new AID("run") );
+				rigidbody.useGravity = false;
+			}
+			
+			
+			if ( isMoveKeyDown())
+			{
+				//_mgr.play( new AID("run") );
+				_mgr.play( AIDManager.getSingleton().getAID( 1, "run"));
+				
 				Vector3 moveDirection = new Vector3( Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 				rigidbody.AddForce( moveDirection.normalized * speed ,ForceMode.VelocityChange );
 			}	
 			else if(Input.GetButton("Fire1"))
 			{
-				_mgr.play( new AID("attack") );
+				//_mgr.play( new AID("attack") );
+				_mgr.play( AIDManager.getSingleton().getAID( 1, "attack"));
 			}
 			else if(Input.GetKeyDown(KeyCode.Alpha2))
 			{
@@ -170,11 +181,13 @@ public class playerController : MonoBehaviour
 			}
 			else
 			{
-				_mgr.play( new AID("idle") );
+				_mgr.play( AIDManager.getSingleton().getAID( 1, "idle"));
+				//_mgr.play( new AID("idle") );
 			}
 		}
 		else
 		{ 
+			rigidbody.useGravity = true;
 			rigidbody.drag = 0.0f; 
 		}
 	}

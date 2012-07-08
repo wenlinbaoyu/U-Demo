@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Attack : Singleton< Attack >, IBaseAnimation
 {
-	private const string ANIMATION_NAME = "attack";
+	private const string ANIMATION_NAME = "1013";
 	
 	//播放animationclip
-	public  void play( Animation am )
+	public  void play( Animation am, object args )
 	{
 		realPlay( am );
 	}

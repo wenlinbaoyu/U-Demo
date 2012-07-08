@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Run : Singleton<Run>, IBaseAnimation
 {
-	private const string ANIMATION_NAME = "run";
+	private const string ANIMATION_NAME = "1003";
 	
 	//播放animationclip
-	public  void play( Animation am )
+	public  void play( Animation am, object args )
 	{
 		realPlay( am );
 	}

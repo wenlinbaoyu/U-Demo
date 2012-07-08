@@ -5,12 +5,14 @@ using UnityEngine;
 public interface IBaseAnimation
 {
 	//播放animationclip
-	void play( Animation am );
+	void play( Animation am, object args );
 	
+	/*
 	//真正播放的函数， 这个函数不应该由外部调用， 
 	//而是又继承IBaseAniamtion的派生类之间的
 	void realPlay( Animation am );
-		
+	*/
+	
 	//设置动作相应
     void setAnimationEvent( Animation am, AnimationEvent e );
 	

@@ -27,6 +27,28 @@ ModelImporter:
     7400044: jump_2 //// Role_Anim
     7400046: jump_3 //// Role_Anim
     7400048: jump_4 //// Role_Anim
+    7400050: 1001 //// Role_Anim
+    7400052: 1002 //// Role_Anim
+    7400054: 1003 //// Role_Anim
+    7400056: 1004 //// Role_Anim
+    7400058: 1005 //// Role_Anim
+    7400060: 1006 //// Role_Anim
+    7400062: 1007 //// Role_Anim
+    7400064: 1008 //// Role_Anim
+    7400066: 1009 //// Role_Anim
+    7400068: 1010 //// Role_Anim
+    7400070: 1011 //// Role_Anim
+    7400072: 1012 //// Role_Anim
+    7400074: 1013 //// Role_Anim
+    7400076: 1014 //// Role_Anim
+    7400078: 1015 //// Role_Anim
+    7400080: 1016 //// Role_Anim
+    7400082: 1017 //// Role_Anim
+    7400084: 1018 //// Role_Anim
+    7400086: 1019 //// Role_Anim
+    7400088: 1020 //// Role_Anim
+    7400090: 1021 //// Role_Anim
+    7400092: 1022 //// Role_Anim
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -42,112 +64,112 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     clipAnimations:
-    - name: idle
+    - name: 1001
       firstFrame: 0
       lastFrame: 20
       wrapMode: 2
       loop: 0
-    - name: walk
+    - name: 1002
       firstFrame: 21
       lastFrame: 53
       wrapMode: 2
       loop: 0
-    - name: run
+    - name: 1003
       firstFrame: 54
       lastFrame: 74
       wrapMode: 2
       loop: 0
-    - name: run_l
+    - name: 1004
       firstFrame: 75
       lastFrame: 95
       wrapMode: 2
       loop: 0
-    - name: run_r
+    - name: 1005
       firstFrame: 96
       lastFrame: 116
       wrapMode: 2
       loop: 0
-    - name: idle_1
+    - name: 1006
       firstFrame: 547
       lastFrame: 577
       wrapMode: 2
       loop: 0
-    - name: walk_1
+    - name: 1007
       firstFrame: 117
       lastFrame: 149
       wrapMode: 2
       loop: 0
-    - name: run_1
+    - name: 1008
       firstFrame: 150
       lastFrame: 170
       wrapMode: 2
       loop: 0
-    - name: run_1_l
+    - name: 1009
       firstFrame: 171
       lastFrame: 191
       wrapMode: 2
       loop: 0
-    - name: run_1_r
+    - name: 1010
       firstFrame: 192
       lastFrame: 212
       wrapMode: 2
       loop: 0
-    - name: like_b
+    - name: 1011
       firstFrame: 250
       lastFrame: 270
       wrapMode: 2
       loop: 0
-    - name: like_b1
+    - name: 1012
       firstFrame: 270
       lastFrame: 290
       wrapMode: 2
       loop: 0
-    - name: be_attack
+    - name: 1013
       firstFrame: 291
       lastFrame: 307
       wrapMode: 2
       loop: 0
-    - name: die
+    - name: 1014
       firstFrame: 308
       lastFrame: 368
       wrapMode: 2
       loop: 0
-    - name: attack
+    - name: 1015
       firstFrame: 369
       lastFrame: 404
       wrapMode: 2
       loop: 0
-    - name: attack_1
+    - name: 1016
       firstFrame: 405
       lastFrame: 427
       wrapMode: 2
       loop: 0
-    - name: attack_2
+    - name: 1017
       firstFrame: 428
       lastFrame: 495
       wrapMode: 2
       loop: 0
-    - name: attack_3
+    - name: 1018
       firstFrame: 496
       lastFrame: 546
       wrapMode: 2
       loop: 0
-    - name: jump_1
+    - name: 1019
       firstFrame: 213
       lastFrame: 222
       wrapMode: 2
       loop: 0
-    - name: jump_2
+    - name: 1020
       firstFrame: 222
       lastFrame: 229
       wrapMode: 2
       loop: 0
-    - name: jump_3
+    - name: 1021
       firstFrame: 229
       lastFrame: 233
       wrapMode: 2
       loop: 0
-    - name: jump_4
+    - name: 1022
       firstFrame: 233
       lastFrame: 249
       wrapMode: 2

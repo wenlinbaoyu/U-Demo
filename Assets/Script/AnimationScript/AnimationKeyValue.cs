@@ -11,23 +11,25 @@ public class AnimationKeyValue : Singleton<AnimationKeyValue>
 		initAnimation();
 	}
 	
-	public IBaseAnimation getAnimation( AID aid )
+	public Type getAnimation( AID aid )
 	{
-		return _table[ aid.id ] as IBaseAnimation ;
+		return _table[ aid.id ] as Type ;
 	}
 	
 	private void initAnimation() 
 	{
 		/****
 		 * 
-		 * 所有的动作都在再这里注册
+		 * 所有的动作都在这里注册
 		 * 
 		 */
+		
+		
 		_table = new Hashtable();
-		_table.Add("attack", Attack.getSingleton());
-		_table.Add("jump", Jump.getSingleton());
-		_table.Add("run", Run.getSingleton());
-		_table.Add("idle", Idle.getSingleton());
+		_table.Add("attack", typeof(Attack));
+		_table.Add("jump", 	 typeof(Jump));
+		_table.Add("run", 	 typeof(Run));
+		_table.Add("idle", 	 typeof(Idle));
 	}
 }
 
