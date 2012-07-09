@@ -22,6 +22,10 @@ public class AIDManager : Singleton< AIDManager >
 		}
 		else if( animationType == "jump" )
 		{
+			AID aid = new AID( "jump" );
+			aid.setArgs("subanimationNumber", new string []{"1019", "1020", "1021", "1022"});
+			aid.setArgs("subSendEvent", new string []{"Jumb_Begin", "", "", ""});
+			aid.setArgs("subListenEvent", new string []{"", "", "People_InGround", ""});
 			return new AID("jump");
 		}
 		else if( animationType == "attack" )

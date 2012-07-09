@@ -1,5 +1,7 @@
 using System;
+using UnityEngine;
 using System.Collections;
+using System.Reflection;
 using System.Collections.Generic;
 
 
@@ -11,9 +13,31 @@ public class AnimationKeyValue : Singleton<AnimationKeyValue>
 		initAnimation();
 	}
 	
-	public Type getAnimation( AID aid )
+	public IBaseAnimation getAnimation( AID aid )
 	{
-		return _table[ aid.id ] as Type ;
+		Type type = _table[ aid.id ] as Type;
+		if ( type.BaseType == typeof(AniamtionContainer))
+		{
+			object am = Activator.CreateInstance( type );
+			if ( am == null ) return null;
+			( am as AniamtionContainer ).start( aid );
+			return am as IBaseAnimation;
+		}
+		else
+		{
+			MethodInfo method = type.GetMethod( "getSingleton", BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance|BindingFlags.Static);
+			if ( method == null ) return null;
+			
+			try
+			{
+				return ( method.Invoke( null, null ) as IBaseAnimation ); 				
+			}
+			catch( Exception )
+			{
+				Debug.LogError(" get method error ");
+				return null;
+			}
+		}
 	}
 	
 	private void initAnimation() 
@@ -24,12 +48,11 @@ public class AnimationKeyValue : Singleton<AnimationKeyValue>
 		 * 
 		 */
 		
-		
 		_table = new Hashtable();
 		_table.Add("attack", typeof(Attack));
-		_table.Add("jump", 	 typeof(Jump));
 		_table.Add("run", 	 typeof(Run));
 		_table.Add("idle", 	 typeof(Idle));
+		_table.Add("jump", 	 typeof(Jump));
 	}
 }
 

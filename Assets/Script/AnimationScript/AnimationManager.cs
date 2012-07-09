@@ -39,23 +39,13 @@ public class AnimationManager
 	//加载动作
 	private IBaseAnimation loadAM( AID aid )
 	{
-		Type animationType = null;
+		IBaseAnimation baseAM = null;
 		if ( aid != null )
 		{
-			animationType = AnimationKeyValue.getSingleton().getAnimation( aid );
-			if ( animationType != null && animationType == IBaseAnimation )
+			baseAM = AnimationKeyValue.getSingleton().getAnimation( aid );
+			if ( baseAM != null )
 			{
-				if ( animationType.BaseType == AniamtionContainer )
-				{
-					animationType am = new animationType();
-					( am as AniamtionContainer ).start( aid );
-					_hashtable.Add( aid.id,  am );
-				}
-				else
-				{
-					_hashtable.Add( aid.id,  animationType );
-				}
-				
+				_hashtable.Add( aid.id,  baseAM );				
 			}
 			else
 			{
@@ -63,7 +53,7 @@ public class AnimationManager
 				return null;
 			}
 		}
-		return animation;
+		return baseAM;
 	}
 	
 	//播放动作

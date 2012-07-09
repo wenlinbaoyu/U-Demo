@@ -45,13 +45,14 @@ public class AID
 	{
 		return getObject( index ) as float;
 	}
+	*/
 	
 	public Array getArray( string index )
 	{
 		return getObject( index ) as Array;
 	}
 	
-	*/
+	
 	public void setArgs( string name, object arg )
 	{
 		if ( _args == null )

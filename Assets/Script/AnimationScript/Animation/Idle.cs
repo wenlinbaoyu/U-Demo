@@ -2,9 +2,21 @@ using System;
 using UnityEngine;
 
 
-public class Idle : Singleton<Idle>, IBaseAnimation
-{
+public class Idle : IBaseAnimation
+{	
 	private const string ANIMATION_NAME = "1001";
+	
+	private static Idle _instance;
+	public static Idle getSingleton()
+	{
+		if ( _instance == null )
+		{
+			_instance = new Idle();
+		}
+		return _instance;
+	}
+	
+	private Idle(){}
 	
 	//播放animationclip
 	public void play( Animation am, object args )

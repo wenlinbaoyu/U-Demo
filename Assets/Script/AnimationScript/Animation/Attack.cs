@@ -1,9 +1,21 @@
 using System;
 using UnityEngine;
 
-public class Attack : Singleton< Attack >, IBaseAnimation
+public class Attack : IBaseAnimation
 {
 	private const string ANIMATION_NAME = "1013";
+	
+	private static Attack _instance;
+	public static Attack getSingleton()
+	{
+		if ( _instance == null )
+		{
+			_instance = new Attack();
+		}
+		return _instance;
+	}
+	
+	private Attack(){}
 	
 	//播放animationclip
 	public  void play( Animation am, object args )
