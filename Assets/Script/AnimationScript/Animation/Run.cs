@@ -5,8 +5,10 @@ using UnityEngine;
 public class Run : IBaseAnimation
 {
 	private const string ANIMATION_NAME = "1003";
-	
+	private const string ANIMATION_NAME_TAB = "1008";
 	private static Run _instance;
+	
+	private Run(){}		
 	public static Run getSingleton()
 	{
 		if ( _instance == null )
@@ -15,23 +17,26 @@ public class Run : IBaseAnimation
 		}
 		return _instance;
 	}
-	
-	private Run(){}	
-	
+	  
 	
 	//播放animationclip
 	public  void play( Animation am, object args )
 	{
-		realPlay( am );
+		string animationName = "";
+		bool tab = (bool)args;
+		if ( tab )
+		{
+			animationName = ANIMATION_NAME_TAB;
+		}
+		else
+		{
+			animationName = ANIMATION_NAME;
+		}
+		am[ animationName ].layer    = AnimationLayer.LOWEST;
+		am[ animationName ].weight   = 100;
+		am[ animationName ].wrapMode = WrapMode.Loop;
+		am.CrossFade( animationName );
 	}
-	
-	public void realPlay( Animation am )
-	{
-		am[ ANIMATION_NAME ].layer    = AnimationLayer.LOWEST;
-		am[ ANIMATION_NAME ].weight   = 100;
-		am[ ANIMATION_NAME ].wrapMode = WrapMode.Loop;
-		am.CrossFade( ANIMATION_NAME );
-	}	
 	
 	//设置动作相应
 	public void setAnimationEvent(Animation am,  AnimationEvent e ){}
@@ -39,8 +44,6 @@ public class Run : IBaseAnimation
 	//get animationclip time 
 	public float animationTime( Animation am ){ return 0.0f; }
 		
-	//get animationclip time by normalaize
-	public float animationTimeNormalize( Animation am ){ return 0.0f; }
 }
 
 

@@ -12,12 +12,10 @@ public class AnimationManager
 	
 	public AnimationManager ( string playername , Animation animation )
 	{
-		_animation = GameObject.Find( playername ).animation;
-		
+		_animation = animation;
 		if ( _animation )
 		{
 			_playerName = playername;
-			
 			_hashtable = new Hashtable(); 	
 		}
 	}
@@ -57,20 +55,18 @@ public class AnimationManager
 	}
 	
 	//播放动作
-	public void play( AID aid )
+	public void play( AID aid, object prama )
 	{
 		IBaseAnimation am = getAnimation( aid );		
 		if ( am != null &&  _animation != null)
 		{
-			am.play( _animation, null );
+			am.play( _animation, prama );
 		}
 		else
 		{
 			Debug.Log( "Function: play --  the player '" + _playerName + "' didn't have animation " + aid.id );
 		}
 	}
-	
-
 	
 	//设置动作时间
 	public void animationClipEvent( AID aid, AnimationEvent ae )
@@ -102,22 +98,6 @@ public class AnimationManager
 			return 0.0f;
 		}
 	}
-	
-
-	public float animationClipNormalize( AID aid )
-	{
-		IBaseAnimation am = getAnimation( aid );
-		if ( am != null ){
-			return am.animationTimeNormalize( _animation );
-		}
-		else
-		{
-			Debug.Log( "Function: animationClipNormalize --  the player '" + _playerName + "' didn't have animation " + aid.id );
-			return 0.0f;
-		}
-	}
-
-
 }
 
 

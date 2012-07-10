@@ -18,9 +18,6 @@ public interface IBaseAnimation
 	
 	//get animationclip time 
 	float animationTime( Animation am );
-	
-	//get animationclip time by normalaize
-    float animationTimeNormalize( Animation am );
 }
 
 

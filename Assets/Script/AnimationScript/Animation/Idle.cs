@@ -5,7 +5,7 @@ using UnityEngine;
 public class Idle : IBaseAnimation
 {	
 	private const string ANIMATION_NAME = "1001";
-	
+	private const string ANIAMTION_NAME_TBA = "1006";
 	private static Idle _instance;
 	public static Idle getSingleton()
 	{
@@ -21,17 +21,22 @@ public class Idle : IBaseAnimation
 	//播放animationclip
 	public void play( Animation am, object args )
 	{
-		realPlay( am );
+		bool tab = (bool)args;
+		string animationName = "";
+		if ( tab )
+		{
+			animationName = ANIAMTION_NAME_TBA;
+		}
+		else
+		{
+			animationName = ANIMATION_NAME;
+		}
+		
+		am[ animationName ].layer  = AnimationLayer.LOWEST;
+		am[ animationName ].weight = 100;
+		am[ animationName ].wrapMode = WrapMode.Loop;
+		am.CrossFade( animationName );
 	}
-	
-	private void realPlay( Animation am )
-	{
-		am[ ANIMATION_NAME ].layer  = AnimationLayer.LOWEST;
-		am[ ANIMATION_NAME ].weight = 100;
-		am[ ANIMATION_NAME ].wrapMode = WrapMode.Loop;
-		am.CrossFade( ANIMATION_NAME );
-	}
-	
 	
 	//设置动作相应
 	public void setAnimationEvent( Animation am, AnimationEvent e ){}

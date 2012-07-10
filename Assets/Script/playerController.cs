@@ -18,10 +18,8 @@ public class playerController : MonoBehaviour
 	private const float groundedDistance = 0.26f;
 	public float groundedCheckOffset = -0.23f;
 	
-	private const float inputThreshold = 0.01f,
-	groundDrag = 5.0f,
-	directionalJumpFactor = 0.7f;
-	
+	private const float inputThreshold = 0.01f, groundDrag = 5.0f, directionalJumpFactor = 0.7f;
+	private bool isTab = false;
 	private bool grounded = false;
 	
 	private Quaternion rotation  = Quaternion.identity;	
@@ -126,7 +124,16 @@ public class playerController : MonoBehaviour
 		//Vector3 movement = rigibodyTransform.forward ;
 	}
 	
+	void BodyJump( CommentEvent e )
+	{
+		rigidbody.AddForce(
+			jumpSpeed * rigibodyTransform.up + rigidbody.velocity.normalized * directionalJumpFactor,
+			ForceMode.VelocityChange
+		);
+	}
 	
+	
+	private bool groundState = true;
 	void FixedUpdate()
 	{
 		grounded = Physics.Raycast (
@@ -139,15 +146,10 @@ public class playerController : MonoBehaviour
 		if (grounded){
 			rigidbody.drag = groundDrag;
 			
-			if (Input.GetButton ("Jump"))
+			if ( Input.GetKeyDown(KeyCode.Space))
 			{
-				rigidbody.AddForce(
-					jumpSpeed * rigibodyTransform.up + rigidbody.velocity.normalized * directionalJumpFactor,
-					ForceMode.VelocityChange
-				);
-				
-				//_mgr.play( new AID("jump") );
-				_mgr.play( AIDManager.getSingleton().getAID( 1, "jump"));
+				EventManager.getSingleton().addEventListener("Jumb_Begin", BodyJump );
+				_mgr.play( AIDManager.getSingleton().getAID( 1, "jump"), null);
 			}
 			else
 			{
@@ -157,20 +159,23 @@ public class playerController : MonoBehaviour
 			
 			if ( isMoveKeyDown())
 			{
-				//_mgr.play( new AID("run") );
-				_mgr.play( AIDManager.getSingleton().getAID( 1, "run"));
+				_mgr.play( AIDManager.getSingleton().getAID( 1, "run"), isTab );
 				
 				Vector3 moveDirection = new Vector3( Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 				rigidbody.AddForce( moveDirection.normalized * speed ,ForceMode.VelocityChange );
 			}	
 			else if(Input.GetButton("Fire1"))
 			{
-				//_mgr.play( new AID("attack") );
-				_mgr.play( AIDManager.getSingleton().getAID( 1, "attack"));
+				_mgr.play( AIDManager.getSingleton().getAID( 1, "attack"), null);
 			}
-			else if(Input.GetKeyDown(KeyCode.Alpha2))
+			else if(Input.GetKeyDown(KeyCode.Tab))
 			{
+				if ( isTab )
+					_mgr.play( AIDManager.getSingleton().getAID( 1, "bajian"), null);
+				else
+					_mgr.play( AIDManager.getSingleton().getAID( 1, "shoujian"), null);
 				
+				isTab = !isTab;
 			}
 			else if(Input.GetKeyDown(KeyCode.Alpha3))
 			{
@@ -181,12 +186,19 @@ public class playerController : MonoBehaviour
 			}
 			else
 			{
-				_mgr.play( AIDManager.getSingleton().getAID( 1, "idle"));
-				//_mgr.play( new AID("idle") );
+				_mgr.play( AIDManager.getSingleton().getAID( 1, "idle"), isTab);
 			}
+			
+			if ( !groundState )
+			{
+				groundState = true;
+				EventManager.getSingleton().sendMsg("People_InGround");
+			}
+			
 		}
 		else
 		{ 
+			groundState = false;
 			rigidbody.useGravity = true;
 			rigidbody.drag = 0.0f; 
 		}

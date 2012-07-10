@@ -117,12 +117,12 @@ ModelImporter:
     - name: 1011
       firstFrame: 250
       lastFrame: 270
-      wrapMode: 2
+      wrapMode: 1
       loop: 0
     - name: 1012
       firstFrame: 270
       lastFrame: 290
-      wrapMode: 2
+      wrapMode: 1
       loop: 0
     - name: 1013
       firstFrame: 291
@@ -137,17 +137,17 @@ ModelImporter:
     - name: 1015
       firstFrame: 369
       lastFrame: 404
-      wrapMode: 2
+      wrapMode: 1
       loop: 0
     - name: 1016
       firstFrame: 405
       lastFrame: 427
-      wrapMode: 2
+      wrapMode: 1
       loop: 0
     - name: 1017
       firstFrame: 428
       lastFrame: 495
-      wrapMode: 2
+      wrapMode: 1
       loop: 0
     - name: 1018
       firstFrame: 496
@@ -157,22 +157,22 @@ ModelImporter:
     - name: 1019
       firstFrame: 213
       lastFrame: 222
-      wrapMode: 2
+      wrapMode: 1
       loop: 0
     - name: 1020
       firstFrame: 222
       lastFrame: 229
-      wrapMode: 2
+      wrapMode: 1
       loop: 0
     - name: 1021
       firstFrame: 229
       lastFrame: 233
-      wrapMode: 2
+      wrapMode: 8
       loop: 0
     - name: 1022
       firstFrame: 233
       lastFrame: 249
-      wrapMode: 2
+      wrapMode: 1
       loop: 0
   meshes:
     lODScreenPercentages: []

@@ -53,6 +53,9 @@ public class AnimationKeyValue : Singleton<AnimationKeyValue>
 		_table.Add("run", 	 typeof(Run));
 		_table.Add("idle", 	 typeof(Idle));
 		_table.Add("jump", 	 typeof(Jump));
+		_table.Add("shoujian", typeof(Shoujian));
+		_table.Add("bajian",   typeof(Bajian));
+		
 	}
 }
 

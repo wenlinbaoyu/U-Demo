@@ -1,12 +1,11 @@
 using System;
 
-namespace AssemblyCSharp
+
+public class AidArgs
 {
-	public class AidArgs
+	public AidArgs ()
 	{
-		public AidArgs ()
-		{
-		}
 	}
 }
+
 
