@@ -16,9 +16,24 @@ public class SubAniamtion : IBaseAnimation
 	public delegate void NextHandler();
 	private event NextHandler _nextEvent; 
 	
+	private bool _isListener = false;
 	public SubAniamtion( string type  )
 	{
 		_aType = type;
+	}
+	
+	
+	public bool isListener
+	{
+		get
+		{
+			return _isListener;
+		}
+		
+		set
+		{
+			_isListener = value;
+		}
 	}
 	
 	//播放animationclip 

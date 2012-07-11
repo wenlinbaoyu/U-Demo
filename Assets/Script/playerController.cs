@@ -3,6 +3,7 @@ using System.Collections;
 
 [RequireComponent (typeof(Rigidbody))]
 [RequireComponent (typeof(Animation))]
+[RequireComponent (typeof(ProxyAnimationEvent))]
 
 public class playerController : MonoBehaviour 
 {
@@ -27,6 +28,8 @@ public class playerController : MonoBehaviour
 	//动作管理
 	private AnimationManager _mgr = null;
 	
+	//info
+	private PlayerAnimationInfo _info = null;
 	//外部参数
 	//走路的速度
 	public  float speed = 0.2f;
@@ -45,8 +48,14 @@ public class playerController : MonoBehaviour
 	
     void Start () 
 	{	
-		//获取动作管理器;
-		_mgr = AnimationMgrFactory.getSingleton().getManager( this.gameObject.name, this.gameObject.animation );
+		//create player info
+		_info = new PlayerAnimationInfo( 1, true );
+		_info.setAllHander(Run, Attack, Idle, Jump, null, null );
+		
+		//get animation manager
+		_mgr = AnimationMgrFactory.getSingleton().getManager( this.gameObject.name, 
+															  this.gameObject.animation,
+															  _info );
 		
 		Debug.Log( _mgr );
 		if ( _mgr == null )
@@ -121,6 +130,8 @@ public class playerController : MonoBehaviour
 			transform.rotation = Quaternion.Slerp(  transform.rotation, rotation, Time.time * trunspeed);		
 		}
 		
+		
+		_mgr.update();
 		//Vector3 movement = rigibodyTransform.forward ;
 	}
 	
@@ -149,7 +160,7 @@ public class playerController : MonoBehaviour
 			if ( Input.GetKeyDown(KeyCode.Space))
 			{
 				EventManager.getSingleton().addEventListener("Jumb_Begin", BodyJump );
-				_mgr.play( AIDManager.getSingleton().getAID( 1, "jump"), null);
+				//_mgr.play( AIDManager.getSingleton().getAID( 1, "jump"), null);
 			}
 			else
 			{
@@ -159,21 +170,21 @@ public class playerController : MonoBehaviour
 			
 			if ( isMoveKeyDown())
 			{
-				_mgr.play( AIDManager.getSingleton().getAID( 1, "run"), isTab );
+				//_mgr.play( AIDManager.getSingleton().getAID( 1, "run"), isTab );
 				
 				Vector3 moveDirection = new Vector3( Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 				rigidbody.AddForce( moveDirection.normalized * speed ,ForceMode.VelocityChange );
 			}	
 			else if(Input.GetButton("Fire1"))
 			{
-				_mgr.play( AIDManager.getSingleton().getAID( 1, "attack"), null);
+				//_mgr.play( AIDManager.getSingleton().getAID( 1, "attack"), null);
 			}
 			else if(Input.GetKeyDown(KeyCode.Tab))
 			{
-				if ( isTab )
-					_mgr.play( AIDManager.getSingleton().getAID( 1, "bajian"), null);
-				else
-					_mgr.play( AIDManager.getSingleton().getAID( 1, "shoujian"), null);
+				//if ( isTab )
+					//_mgr.play( AIDManager.getSingleton().getAID( 1, "bajian"), null);
+				//else
+					//_mgr.play( AIDManager.getSingleton().getAID( 1, "shoujian"), null);
 				
 				isTab = !isTab;
 			}
@@ -186,7 +197,7 @@ public class playerController : MonoBehaviour
 			}
 			else
 			{
-				_mgr.play( AIDManager.getSingleton().getAID( 1, "idle"), isTab);
+				//_mgr.play( AIDManager.getSingleton().getAID( 1, "idle"), isTab);
 			}
 			
 			if ( !groundState )

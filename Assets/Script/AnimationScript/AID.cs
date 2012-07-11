@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 public class AID
 {
@@ -21,39 +21,16 @@ public class AID
 	
 	public object getObject( string index )
 	{
-		if ( _args == null ) return null; 
-		return  _args[ index ];
+		return _args[index];
 	}
 	
-	/*
-	public int getInt( string index )
-	{
-		object arg = getObject( index );
-		if ( arg is int )
-		{
-			return int(arg);
-		}
-		return 0;
-	}
-	
-	public int getString( string index )
-	{
-		return getObject( index ) as string;
-	}
-	
-	public float getFloat( string index )
-	{
-		return getObject( index ) as float;
-	}
-	*/
 	
 	public Array getArray( string index )
 	{
 		return getObject( index ) as Array;
 	}
 	
-	
-	public void setArgs( string name, object arg )
+	public void setArgs( string index, object arg )
 	{
 		if ( _args == null )
 		{
