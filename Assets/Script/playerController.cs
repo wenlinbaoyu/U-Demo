@@ -1,10 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof(Rigidbody))]
+
 [RequireComponent (typeof(Animation))]
 [RequireComponent (typeof(ProxyAnimationEvent))]
-
 public class playerController : MonoBehaviour 
 {
 	
@@ -13,14 +12,14 @@ public class playerController : MonoBehaviour
 	//内部私有参数
 	private Camera mainCamera = null;
 	private Transform mainCameraTransform = null;
-	private Transform rigibodyTransform = null;
+	//private Transform rigibodyTransform = null;
 	
-	
+	private CharacterController _controller = null;
 	private const float groundedDistance = 0.26f;
 	public float groundedCheckOffset = -0.23f;
 	
 	private const float inputThreshold = 0.01f, groundDrag = 5.0f, directionalJumpFactor = 0.7f;
-	private bool isTab = false;
+	//private bool isTab = false;
 	private bool grounded = false;
 	
 	private Quaternion rotation  = Quaternion.identity;	
@@ -28,6 +27,7 @@ public class playerController : MonoBehaviour
 	//动作管理
 	private AnimationManager _mgr = null;
 	
+	private float upfroce = 0.0f;
 	//info
 	private PlayerAnimationInfo _info = null;
 	//外部参数
@@ -38,6 +38,7 @@ public class playerController : MonoBehaviour
 	
 	public float jumpSpeed = 2.0f;
 	
+	public float gravity = 2.0f;
 	
     void Awake()
 	{
@@ -50,7 +51,7 @@ public class playerController : MonoBehaviour
 	{	
 		//create player info
 		_info = new PlayerAnimationInfo( 1, true );
-		_info.setAllHander(Run, Attack, Idle, Jump, null, null );
+		_info.setAllHander(typeof(Run), typeof(Attack), typeof(Idle), typeof(Jump), null, null );
 		
 		//get animation manager
 		_mgr = AnimationMgrFactory.getSingleton().getManager( this.gameObject.name, 
@@ -62,14 +63,14 @@ public class playerController : MonoBehaviour
 		{
 			Debug.LogError ( " this.gameObject.name cann't get some AnimationManager ");
 		}
-
-		rigibodyTransform  = rigidbody.transform;
-		rigidbody.useGravity = false;
-		rigidbody.freezeRotation = true;
+		
+		
+		_controller = GetComponent<CharacterController>();
 	}
 	
 	void OnGUI()
 	{}
+	
 	
 	void Update () 
 	{	
@@ -81,7 +82,7 @@ public class playerController : MonoBehaviour
 		float x = Mathf.Abs( horizontal_value );
 		float z = Mathf.Abs( vertical_value );
 		
-		if( isMoveKeyDown())
+		if( isMoveKeyDown() && _info.curState == PlayerAnimationState.RUN )
 		{
 			bool is_click = false; //是否按前后键
 			float y_angel = mainCameraRotation.eulerAngles.y;
@@ -129,98 +130,79 @@ public class playerController : MonoBehaviour
 		{
 			transform.rotation = Quaternion.Slerp(  transform.rotation, rotation, Time.time * trunspeed);		
 		}
+
+		Vector3 moveDirection = new Vector3(0, 0, z);
+		moveDirection = transform.TransformDirection(moveDirection);
+		moveDirection *= Time.deltaTime* speed;
+	
+		if ( upfroce > 0.0f )
+		{
+			moveDirection.y += (upfroce - gravity) * Time.deltaTime;
+			upfroce = upfroce - gravity;
+		}
+		else
+		{
+			moveDirection.y -= gravity * Time.deltaTime;
+		}
 		
 		
-		_mgr.update();
+		
+		_controller.Move( moveDirection );
+		
 		//Vector3 movement = rigibodyTransform.forward ;
+		_mgr.update();
 	}
 	
 	void BodyJump( CommentEvent e )
 	{
-		rigidbody.AddForce(
-			jumpSpeed * rigibodyTransform.up + rigidbody.velocity.normalized * directionalJumpFactor,
-			ForceMode.VelocityChange
-		);
-	}
+		upfroce = 50;
+		EventManager.getSingleton().removeEventListener("Player_JumpUp",  BodyJump );
+	}	
 	
 	
-	private bool groundState = true;
 	void FixedUpdate()
 	{
-		grounded = Physics.Raycast (
-			rigidbody.transform.position + rigidbody.transform.up * -groundedCheckOffset,
-			rigidbody.transform.up * -1,
-			groundedDistance,
-			-1
-		);
-		
-		if (grounded){
-			rigidbody.drag = groundDrag;
-			
-			if ( Input.GetKeyDown(KeyCode.Space))
-			{
-				EventManager.getSingleton().addEventListener("Jumb_Begin", BodyJump );
-				//_mgr.play( AIDManager.getSingleton().getAID( 1, "jump"), null);
-			}
-			else
-			{
-				rigidbody.useGravity = false;
-			}
-			
-			
+		grounded = _controller.isGrounded;
+		_info.isGround = grounded;
+	
+		if (grounded)
+		{
+			//rigidbody.drag = groundDrag;
 			if ( isMoveKeyDown())
 			{
-				//_mgr.play( AIDManager.getSingleton().getAID( 1, "run"), isTab );
-				
-				Vector3 moveDirection = new Vector3( Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-				rigidbody.AddForce( moveDirection.normalized * speed ,ForceMode.VelocityChange );
-			}	
-			else if(Input.GetButton("Fire1"))
-			{
-				//_mgr.play( AIDManager.getSingleton().getAID( 1, "attack"), null);
+				if ( _info.curState != PlayerAnimationState.ATTACK &&
+					 _info.curState != PlayerAnimationState.JUMP)
+					_info.curState = PlayerAnimationState.RUN;
+				//Vector3 moveDirection = new Vector3( Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+				//rigidbody.AddForce( moveDirection.normalized * speed ,ForceMode.VelocityChange );
 			}
-			else if(Input.GetKeyDown(KeyCode.Tab))
+			else if (Input.GetButtonDown("Jump"))
 			{
-				//if ( isTab )
-					//_mgr.play( AIDManager.getSingleton().getAID( 1, "bajian"), null);
-				//else
-					//_mgr.play( AIDManager.getSingleton().getAID( 1, "shoujian"), null);
-				
-				isTab = !isTab;
-			}
-			else if(Input.GetKeyDown(KeyCode.Alpha3))
-			{
-
-			}
-			else if(Input.GetKeyDown(KeyCode.Alpha4))
-			{
+				EventManager.getSingleton().addEventListener("Player_JumpUp",  BodyJump );
 			}
 			else
 			{
-				//_mgr.play( AIDManager.getSingleton().getAID( 1, "idle"), isTab);
+				if ( _info.curState != PlayerAnimationState.ATTACK &&
+					 _info.curState != PlayerAnimationState.JUMP)
+				{
+					_info.curState = PlayerAnimationState.IDLE;				
+				}
+				
 			}
-			
-			if ( !groundState )
-			{
-				groundState = true;
-				EventManager.getSingleton().sendMsg("People_InGround");
-			}
-			
 		}
 		else
-		{ 
-			groundState = false;
-			rigidbody.useGravity = true;
-			rigidbody.drag = 0.0f; 
+		{
+			
+			//rigidbody.drag = 0.0f; 
 		}
 	}
 	
 	
 	void OnDrawGizmos()
 	{
-		Gizmos.color = grounded ? Color.blue : Color.red;
-		Gizmos.DrawLine ( rigidbody.transform.position + rigidbody.transform.up * -groundedCheckOffset,
-			rigidbody.transform.position + rigidbody.transform.up * -(groundedCheckOffset + groundedDistance));
+		//Gizmos.color = grounded ? Color.blue : Color.red;
+		//Gizmos.DrawLine ( rigidbody.transform.position + rigidbody.transform.up * -groundedCheckOffset,
+		//	rigidbody.transform.position + rigidbody.transform.up * -(groundedCheckOffset + groundedDistance));
 	}
 	
 	private bool isMoveKeyDown()

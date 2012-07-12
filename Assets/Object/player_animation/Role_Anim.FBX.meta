@@ -49,6 +49,8 @@ ModelImporter:
     7400088: 1020 //// Role_Anim
     7400090: 1021 //// Role_Anim
     7400092: 1022 //// Role_Anim
+    7400094: 10151 //// Role_Anim
+    7400096: 10161 //// Role_Anim
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -136,12 +138,12 @@ ModelImporter:
       loop: 0
     - name: 1015
       firstFrame: 369
-      lastFrame: 404
+      lastFrame: 387
       wrapMode: 1
       loop: 0
     - name: 1016
       firstFrame: 405
-      lastFrame: 427
+      lastFrame: 415
       wrapMode: 1
       loop: 0
     - name: 1017
@@ -173,6 +175,16 @@ ModelImporter:
       firstFrame: 233
       lastFrame: 249
       wrapMode: 1
+      loop: 0
+    - name: 10151
+      firstFrame: 387
+      lastFrame: 404
+      wrapMode: 0
+      loop: 0
+    - name: 10161
+      firstFrame: 415
+      lastFrame: 427
+      wrapMode: 0
       loop: 0
   meshes:
     lODScreenPercentages: []

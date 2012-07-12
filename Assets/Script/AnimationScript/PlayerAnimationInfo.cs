@@ -11,10 +11,10 @@ public class PlayerAnimationInfo
 	
 	public PlayerAnimationState curState;
 	public bool isGround = true;
-	public bool isTab = true;
+	public bool isTab = false;
 	private bool _isPlayer = false;
 
-	public PlayerAnimationInfo ( int id , int isPlayer )
+	public PlayerAnimationInfo ( int id , bool isPlayer )
 	{
 		_playerId = id;
 		_isPlayer = isPlayer;
@@ -58,7 +58,7 @@ public class PlayerAnimationInfo
 	public Type getHandler( string handlername )
 	{
 		if ( _animationHandler == null ) return null;
-		return _animationHandler[handlername];
+		return _animationHandler[handlername] as Type;
 	}
 	
 	
@@ -97,8 +97,11 @@ public class PlayerAnimationInfo
 		_aniamtionIndex.Add("dead", "1014");
 		//15 普通攻击（单击）*   369-404	  id:1015
 		_aniamtionIndex.Add("attack", "1015");
+		_aniamtionIndex.Add("attack_shou", "10151");
+		
 		//16 连续攻击（连击两次）*   405-427  id:1016
 		_aniamtionIndex.Add("attack_double", "1016");
+		_aniamtionIndex.Add("attack_double_shou", "10161");
 		//17 甩剑攻击 *      428-495	id:1017
 		_aniamtionIndex.Add("sp_1", "1017");
 		//18 旋转攻击 *      496-546      id:1018
@@ -110,7 +113,7 @@ public class PlayerAnimationInfo
 		//21 跳跃 - 落下     	229-233		id:1021
 		_aniamtionIndex.Add("jump_down", "1021");
 		//22 跳跃 - 着地回到待机    233-249	id:1022
-		_aniamtionIndex.Add("fall", "1021");
+		_aniamtionIndex.Add("fall", "1022");
 		//
 		
 		//set animation state

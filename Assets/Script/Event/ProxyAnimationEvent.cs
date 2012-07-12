@@ -5,7 +5,7 @@ public class ProxyAnimationEvent : MonoBehaviour
 {
 	public delegate void EventHandler();
 	private static Hashtable _eventTable;
-
+		
 	public static AnimationEvent getAmimationEvent( string handler_name, EventHandler handler )
 	{
  		if ( _eventTable == null )
@@ -36,12 +36,11 @@ public class ProxyAnimationEvent : MonoBehaviour
 	private void callback( string param )
 	{
 		EventHandler tmp = _eventTable[ param ] as EventHandler;
+		_eventTable.Remove( param );
 		if ( tmp != null )
 		{
 			tmp();
 		}
-		
-		_eventTable.Remove( param );
 	}
 }
 

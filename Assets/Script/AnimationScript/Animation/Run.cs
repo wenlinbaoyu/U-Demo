@@ -2,47 +2,74 @@ using System;
 using UnityEngine;
 
 
-public class Run : IBaseAnimation
-{
-	private const string ANIMATION_NAME = "1003";
-	private const string ANIMATION_NAME_TAB = "1008";
-	private static Run _instance;
-	
-	private Run(){}		
-	public static Run getSingleton()
+public class Run : BaseAnimation
+{	
+	//method of start
+	override public void start( Animation am , PlayerAnimationInfo info )
 	{
-		if ( _instance == null )
+		am[info.getAniamtionID("run")].wrapMode = WrapMode.Loop;
+		am[info.getAniamtionID("run")].layer = AnimationLayer.LOWEST;
+		am[info.getAniamtionID("run")].weight = 100;
+
+		am[info.getAniamtionID("run_left")].wrapMode = WrapMode.Loop;
+		am[info.getAniamtionID("run_left")].layer = AnimationLayer.LOWEST;
+		am[info.getAniamtionID("run_left")].weight = 100;
+		
+		am[info.getAniamtionID("run_right")].wrapMode = WrapMode.Loop;
+		am[info.getAniamtionID("run_right")].layer = AnimationLayer.LOWEST;
+		am[info.getAniamtionID("run_right")].weight = 100;
+		
+		
+		am[info.getAniamtionID("run_tab")].wrapMode = WrapMode.Loop;
+		am[info.getAniamtionID("run_tab")].layer = AnimationLayer.LOWEST;
+		am[info.getAniamtionID("run_tab")].weight = 100;
+	
+		am[info.getAniamtionID("run_left_tab")].wrapMode = WrapMode.Loop;
+		am[info.getAniamtionID("run_left_tab")].layer = AnimationLayer.LOWEST;
+		am[info.getAniamtionID("run_left_tab")].weight = 100;
+		
+		am[info.getAniamtionID("run_right_tab")].wrapMode = WrapMode.Loop;
+		am[info.getAniamtionID("run_right_tab")].layer = AnimationLayer.LOWEST;
+		am[info.getAniamtionID("run_right_tab")].weight = 100;
+		
+
+		am[info.getAniamtionID("walk")].wrapMode = WrapMode.Loop;
+		am[info.getAniamtionID("walk")].layer = AnimationLayer.LOWEST;
+		am[info.getAniamtionID("walk")].weight = 100;
+				
+		base.start( am,  info );
+	}	
+	
+	//method of update
+	override public void update()
+	{
+		if ( _info.curState == PlayerAnimationState.RUN )
 		{
-			_instance = new Run();
+			if ( _info.isTab )
+			{
+				_am.Stop( _info.getAniamtionID("run") );
+				_am.CrossFade( _info.getAniamtionID("run_tab") );
+			}
+			else
+			{
+				_am.Stop( _info.getAniamtionID("run_tab") );
+				_am.CrossFade( _info.getAniamtionID("run") );
+			}
 		}
-		return _instance;
-	}
-	  
+	}	
 	
-	//播放animationclip
-	public  void play( Animation am, object args )
+	//get animationclip time 
+	override public float animationTime()
 	{
-		string animationName = "";
-		bool tab = (bool)args;
-		if ( tab )
+		if ( _info.isTab )
 		{
-			animationName = ANIMATION_NAME_TAB;
+			return _am[ _info.getAniamtionID("run_tab") ].length; 
 		}
 		else
 		{
-			animationName = ANIMATION_NAME;
+			return _am[ _info.getAniamtionID("run") ].length; 
 		}
-		am[ animationName ].layer    = AnimationLayer.LOWEST;
-		am[ animationName ].weight   = 100;
-		am[ animationName ].wrapMode = WrapMode.Loop;
-		am.CrossFade( animationName );
 	}
-	
-	//设置动作相应
-	public void setAnimationEvent(Animation am,  AnimationEvent e ){}
-	
-	//get animationclip time 
-	public float animationTime( Animation am ){ return 0.0f; }
 		
 }
 

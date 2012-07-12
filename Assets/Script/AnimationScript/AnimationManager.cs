@@ -7,18 +7,18 @@ using System.Collections.Generic;
 
 public class AnimationManager
 {
-	private List<IBaseAnimation> _amList;
+	private List<BaseAnimation> _amList;
 	private Hashtable _hashtable = null ;
 	private Animation _animation = null;
 	private String _playerName = "";
 	
 	/*
-	private IBaseAnimation attack = null;
-	private IBaseAnimation run = null;
-	private IBaseAnimation idle = null;
-	private IBaseAnimation jump = null;
-	private IBaseAnimation other = null;
-	private IBaseAnimation shortcut = null;
+	private BaseAnimation attack = null;
+	private BaseAnimation run = null;
+	private BaseAnimation idle = null;
+	private BaseAnimation jump = null;
+	private BaseAnimation other = null;
+	private BaseAnimation shortcut = null;
 	*/
 	 
 	public AnimationManager ( string playername , Animation animation, PlayerAnimationInfo info )
@@ -35,27 +35,32 @@ public class AnimationManager
 	
 	private void init( PlayerAnimationInfo info )
 	{
-		_amList = new List<IBaseAnimation>();
+		_amList = new List<BaseAnimation>();
 		if ( info.hasHandler("runHandler"))  	  _amList.Add( createInstance( info.getHandler("runHandler") ) );
 		if ( info.hasHandler("attackHandler"))    _amList.Add( createInstance( info.getHandler("attackHandler") ) );
 		if ( info.hasHandler("idleHandler"))      _amList.Add( createInstance( info.getHandler("idleHandler") ) );
 		if ( info.hasHandler("jumpHandler"))      _amList.Add( createInstance( info.getHandler("jumpHandler") ) );
 		if ( info.hasHandler("shortcutHandler"))  _amList.Add( createInstance( info.getHandler("shortcutHandler") ) );
-		if ( info.hasHandler("otherHandler"))  	  _amList.Add( createInstance( info.getHandler("otherHandler") ) );					
+		if ( info.hasHandler("otherHandler"))  	  _amList.Add( createInstance( info.getHandler("otherHandler") ) );
+		
+		for ( int i = 0; i < _amList.Count ; i ++ )
+		{
+			(_amList[i] as BaseAnimation).start(_animation, info );
+		}
 	}
 	
-	private IBaseAnimation createInstance( Type type )
+	private BaseAnimation createInstance( Type type )
 	{
-		return Activator.CreateInstance( type ) as IBaseAnimation;
+		return Activator.CreateInstance( type ) as BaseAnimation;
 	}
 	
 	
 	
 	/*
 	//获取动作
-	private IBaseAnimation getAnimation( AID aid )
+	private BaseAnimation getAnimation( AID aid )
 	{
-		IBaseAnimation am = _hashtable[ aid.id ] as IBaseAnimation;
+		BaseAnimation am = _hashtable[ aid.id ] as BaseAnimation;
 		if ( am == null )
 		{
 			am = loadAM( aid );
@@ -66,9 +71,9 @@ public class AnimationManager
 	
 	/*
 	//加载动作
-	private IBaseAnimation loadAM( AID aid )
+	private BaseAnimation loadAM( AID aid )
 	{
-		IBaseAnimation baseAM = null;
+		BaseAnimation baseAM = null;
 		if ( aid != null )
 		{
 			baseAM = AnimationKeyValue.getSingleton().getAnimation( aid );
@@ -90,7 +95,7 @@ public class AnimationManager
 	//播放动作
 	public void play( AID aid )
 	{
-		IBaseAnimation am = getAnimation( aid );		
+		BaseAnimation am = getAnimation( aid );		
 		if ( am != null &&  _animation != null)
 		{
 			am.play( _animation, prama );
@@ -107,7 +112,7 @@ public class AnimationManager
 		if ( _amList == null ) return ;
 		for ( int i = 0; i < _amList.Count ; i++ )
 		{
-			(_amList[i] as IBaseAnimation ).update();
+			(_amList[i] as BaseAnimation ).update();
 		}
 	}
 
@@ -117,7 +122,7 @@ public class AnimationManager
 	//设置动作时间
 	public void animationClipEvent( AID aid, AnimationEvent ae )
 	{
-		IBaseAnimation am = getAnimation( aid );
+		BaseAnimation am = getAnimation( aid );
 		
 		if ( am != null )
 		{
@@ -132,7 +137,7 @@ public class AnimationManager
 	//动作时间
 	public float animationClipTime( AID aid )
 	{
-		IBaseAnimation am = getAnimation( aid );
+		BaseAnimation am = getAnimation( aid );
 		
 		if ( am != null )
 		{

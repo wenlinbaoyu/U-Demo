@@ -2,53 +2,54 @@ using System;
 using UnityEngine;
 
 
-public class Idle : IBaseAnimation
+public class Idle : BaseAnimation
 {	
-	private const string ANIMATION_NAME = "1001";
-	private const string ANIAMTION_NAME_TBA = "1006";
-	private static Idle _instance;
-	public static Idle getSingleton()
+	//method of start
+	override public void start( Animation am , PlayerAnimationInfo info )
 	{
-		if ( _instance == null )
-		{
-			_instance = new Idle();
-		}
-		return _instance;
+		am[info.getAniamtionID("idle")].wrapMode = WrapMode.Loop;
+		am[info.getAniamtionID("idle")].layer = AnimationLayer.LOWEST;
+		am[info.getAniamtionID("idle")].weight = 100;
+		
+		
+		am[info.getAniamtionID("idle_tab")].wrapMode = WrapMode.Loop;
+		am[info.getAniamtionID("idle_tab")].layer = AnimationLayer.LOWEST;
+		am[info.getAniamtionID("idle_tab")].weight = 100;
+
+		base.start( am,  info );
 	}
 	
-	private Idle(){}
 	
-	//播放animationclip
-	public void play( Animation am, object args )
+	//method of update
+	override public void update()
 	{
-		bool tab = (bool)args;
-		string animationName = "";
-		if ( tab )
+		if ( _info.curState == PlayerAnimationState.IDLE )
 		{
-			animationName = ANIAMTION_NAME_TBA;
+			if ( _info.isTab )
+			{
+				_am.Stop( _info.getAniamtionID("idle") );
+				_am.CrossFade( _info.getAniamtionID("idle_tab") );
+			}
+			else
+			{
+				_am.Stop( _info.getAniamtionID("idle_tab") );
+				_am.CrossFade( _info.getAniamtionID("idle") );
+			}
+		}
+	}
+	
+	//get animationclip time 
+	override public float animationTime()
+	{
+		if ( _info.isTab )
+		{
+			return _am[ _info.getAniamtionID("idle_tab") ].length; 
 		}
 		else
 		{
-			animationName = ANIMATION_NAME;
+			return _am[ _info.getAniamtionID("idle") ].length; 
 		}
-		
-		am[ animationName ].layer  = AnimationLayer.LOWEST;
-		am[ animationName ].weight = 100;
-		am[ animationName ].wrapMode = WrapMode.Loop;
-		am.CrossFade( animationName );
 	}
-	
-	//设置动作相应
-	public void setAnimationEvent( Animation am, AnimationEvent e ){}
-	
-	//get animationclip time 
-	public float animationTime( Animation am )
-	{ return am[ ANIMATION_NAME ].time; }
-		
-		
-	//get animationclip time by normalaize
-	public float animationTimeNormalize( Animation am )
-	{ return am[ ANIMATION_NAME ].normalizedTime; }
 }
 
 

@@ -7,13 +7,14 @@ using System.Collections.Generic;
 
 public class AnimationKeyValue : Singleton<AnimationKeyValue>
 {
+	/*
 	private Hashtable _table = null;
 	public AnimationKeyValue ()
 	{
 		initAnimation();
 	}
 	
-	public IBaseAnimation getAnimation( AID aid )
+	public BaseAnimation getAnimation( AID aid )
 	{
 		Type type = _table[ aid.id ] as Type;
 		if ( type.BaseType == typeof(AniamtionContainer))
@@ -21,7 +22,7 @@ public class AnimationKeyValue : Singleton<AnimationKeyValue>
 			object am = Activator.CreateInstance( type );
 			if ( am == null ) return null;
 			( am as AniamtionContainer ).start( aid );
-			return am as IBaseAnimation;
+			return am as BaseAnimation;
 		}
 		else
 		{
@@ -30,7 +31,7 @@ public class AnimationKeyValue : Singleton<AnimationKeyValue>
 			
 			try
 			{
-				return ( method.Invoke( null, null ) as IBaseAnimation ); 				
+				return ( method.Invoke( null, null ) as BaseAnimation ); 				
 			}
 			catch( Exception )
 			{
@@ -40,23 +41,27 @@ public class AnimationKeyValue : Singleton<AnimationKeyValue>
 		}
 	}
 	
-	private void initAnimation() 
-	{
+	*/
+	
+	
+	//private void initAnimation() 
+	//{
 		/****
 		 * 
 		 * 所有的动作都在这里注册
 		 * 
 		 */
 		
-		_table = new Hashtable();
-		_table.Add("attack", typeof(Attack));
-		_table.Add("run", 	 typeof(Run));
-		_table.Add("idle", 	 typeof(Idle));
-		_table.Add("jump", 	 typeof(Jump));
-		_table.Add("shoujian", typeof(Shoujian));
-		_table.Add("bajian",   typeof(Bajian));
+	//	_table = new Hashtable();
+	//	_table.Add("attack", typeof(Attack));
+	//	_table.Add("run", 	 typeof(Run));
+	///	_table.Add("idle", 	 typeof(Idle));
+	//	_table.Add("jump", 	 typeof(Jump));
+	//	_table.Add("shoujian", typeof(Shoujian));
+	//	_table.Add("bajian",   typeof(Bajian));
 		
-	}
+	//}
+
 }
 
 
