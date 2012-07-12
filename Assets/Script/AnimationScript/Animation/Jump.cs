@@ -69,7 +69,7 @@ public class Jump : BaseAnimation
 		if ( isSetMsg )
 		{ 
 			AnimationEvent e = ProxyAnimationEvent.getAmimationEvent( "nextAnimation", nextAnimation );
-			e.time = animationTime() * 0.8f;
+			e.time = animationTime();
 			setAnimationEvent( _info.getAniamtionID(animationName), e );
 		}		
 	}

@@ -19,9 +19,7 @@ public class playerController : MonoBehaviour
 	public float groundedCheckOffset = -0.23f;
 	
 	private const float inputThreshold = 0.01f, groundDrag = 5.0f, directionalJumpFactor = 0.7f;
-	//private bool isTab = false;
 	private bool grounded = false;
-	
 	private Quaternion rotation  = Quaternion.identity;	
 
 	//动作管理
@@ -51,7 +49,7 @@ public class playerController : MonoBehaviour
 	{	
 		//create player info
 		_info = new PlayerAnimationInfo( 1, true );
-		_info.setAllHander(typeof(Run), typeof(Attack), typeof(Idle), typeof(Jump), null, null );
+		_info.setAllHander(typeof(Run), typeof(Attack), typeof(Idle), typeof(Jump), null, typeof(OtherAnimation) );
 		
 		//get animation manager
 		_mgr = AnimationMgrFactory.getSingleton().getManager( this.gameObject.name, 
@@ -171,19 +169,19 @@ public class playerController : MonoBehaviour
 			if ( isMoveKeyDown())
 			{
 				if ( _info.curState != PlayerAnimationState.ATTACK &&
-					 _info.curState != PlayerAnimationState.JUMP)
-					_info.curState = PlayerAnimationState.RUN;
-				//Vector3 moveDirection = new Vector3( Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-				//rigidbody.AddForce( moveDirection.normalized * speed ,ForceMode.VelocityChange );
+					 _info.curState != PlayerAnimationState.JUMP )
+				{
+					_info.curState = PlayerAnimationState.RUN;					
+				}
 			}
-			else if (Input.GetButtonDown("Jump"))
+			else if ( Input.GetButtonDown("Jump"))
 			{
 				EventManager.getSingleton().addEventListener("Player_JumpUp",  BodyJump );
 			}
 			else
 			{
 				if ( _info.curState != PlayerAnimationState.ATTACK &&
-					 _info.curState != PlayerAnimationState.JUMP)
+					 _info.curState != PlayerAnimationState.JUMP )
 				{
 					_info.curState = PlayerAnimationState.IDLE;				
 				}
@@ -201,8 +199,8 @@ public class playerController : MonoBehaviour
 	void OnDrawGizmos()
 	{
 		//Gizmos.color = grounded ? Color.blue : Color.red;
-		//Gizmos.DrawLine ( rigidbody.transform.position + rigidbody.transform.up * -groundedCheckOffset,
-		//	rigidbody.transform.position + rigidbody.transform.up * -(groundedCheckOffset + groundedDistance));
+		//Gizmos.DrawLine ( transform.position + transform.up * -groundedCheckOffset,
+		 //     transform.position + transform.up * -(groundedCheckOffset + groundedDistance));
 	}
 	
 	private bool isMoveKeyDown()
