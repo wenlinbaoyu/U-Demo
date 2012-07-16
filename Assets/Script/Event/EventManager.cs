@@ -77,12 +77,6 @@ public class EventManager : Singleton< EventManager >
 		//clear event list
 		_msgList.Clear();
 	}
-	
-	/*
-	public void	FiexUpdate()
-	{
-		
-	}
-	*/
+
 }
 

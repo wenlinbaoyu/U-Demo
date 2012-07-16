@@ -20,18 +20,24 @@ public class Jump : BaseAnimation
 		am[info.getAniamtionID("jump_begin")].layer = AnimationLayer.NORMAL;
 		am[info.getAniamtionID("jump_begin")].weight = 100;
 		
+		
 		am[info.getAniamtionID("jump_up")].wrapMode = WrapMode.Once;
 		am[info.getAniamtionID("jump_up")].layer = AnimationLayer.NORMAL;
 		am[info.getAniamtionID("jump_up")].weight = 100;
-
+		
+		
+		
 		am[info.getAniamtionID("jump_down")].wrapMode = WrapMode.ClampForever;
 		am[info.getAniamtionID("jump_down")].layer = AnimationLayer.NORMAL;
 		am[info.getAniamtionID("jump_down")].weight = 100;		
 	
+		
+		
 		am[info.getAniamtionID("fall")].wrapMode = WrapMode.Once;
 		am[info.getAniamtionID("fall")].layer = AnimationLayer.NORMAL;
 		am[info.getAniamtionID("fall")].weight = 100;			
 			
+		
 		base.start( am,  info );
 	}
 	
@@ -39,6 +45,7 @@ public class Jump : BaseAnimation
 	//method of update
 	override public void update()
 	{
+		/*
 		if ( _info.curState == PlayerAnimationState.JUMP  && _info.isGround )
 		{
 			EventManager.getSingleton().sendMsg( "Player_Fall" );
@@ -58,7 +65,7 @@ public class Jump : BaseAnimation
 			//}
 		}
 		
-		
+		*/
 	}
 
 	private void setAnimationMsg( string animationName, bool isSetMsg )
@@ -77,6 +84,7 @@ public class Jump : BaseAnimation
 	
 	private void nextAnimation()
 	{
+		/*
 		if ( _info.curState == PlayerAnimationState.JUMP )
 		{
 			switch( curJumpState )
@@ -121,6 +129,7 @@ public class Jump : BaseAnimation
 				}
 			}				
 		}
+		*/
 	}
 	
 	private void Fall( CommentEvent e )

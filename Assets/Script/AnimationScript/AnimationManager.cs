@@ -8,31 +8,45 @@ using System.Collections.Generic;
 public class AnimationManager
 {
 	private List<BaseAnimation> _amList;
-	private Hashtable _hashtable = null ;
+	//private Hashtable _hashtable = null ;
 	private Animation _animation = null;
 	private String _playerName = "";
+	private String _curAnimation = "";
+	private PlayerAnimationInfo _info = null ;
 	
-	/*
-	private BaseAnimation attack = null;
-	private BaseAnimation run = null;
-	private BaseAnimation idle = null;
-	private BaseAnimation jump = null;
-	private BaseAnimation other = null;
-	private BaseAnimation shortcut = null;
-	*/
-	 
+	//call back function delegate
+	public delegate void CallBackHandler();
+		
 	public AnimationManager ( string playername , Animation animation, PlayerAnimationInfo info )
 	{
 		_animation = animation;
 		if ( _animation )
 		{
 			_playerName = playername;
-			_hashtable = new Hashtable(); 
-			init( info );
+			_info = info;
+			
+			start();
 		}
-
 	}
 	
+	public void start()
+	{
+		Hashtable talbe = _info.animations;
+		foreach ( DictionaryEntry de in talbe )
+		{
+			AnimationProperty property = _info.getAnimationProperty( de.Key );
+			if ( property != null )
+			{
+				_animation[de.Value].wrapMode = property.mode;
+				_animation[de.Value].layer    = property.layer;
+				_animation[de.Value].weight   = property.weight;
+				
+			}
+		}
+	}
+	
+	
+	/*
 	private void init( PlayerAnimationInfo info )
 	{
 		_amList = new List<BaseAnimation>();
@@ -53,104 +67,82 @@ public class AnimationManager
 	{
 		return Activator.CreateInstance( type ) as BaseAnimation;
 	}
-	
-	
-	
-	/*
-	//获取动作
-	private BaseAnimation getAnimation( AID aid )
-	{
-		BaseAnimation am = _hashtable[ aid.id ] as BaseAnimation;
-		if ( am == null )
-		{
-			am = loadAM( aid );
-		}
-		return am;
-	}
 	*/
 	
-	/*
-	//加载动作
-	private BaseAnimation loadAM( AID aid )
+	public String getCurrentAniamtion()
 	{
-		BaseAnimation baseAM = null;
-		if ( aid != null )
-		{
-			baseAM = AnimationKeyValue.getSingleton().getAnimation( aid );
-			if ( baseAM != null )
-			{
-				_hashtable.Add( aid.id,  baseAM );				
-			}
-			else
-			{
-				Debug.Log( " the animation '" + aid.id + "' do not registered" );
-				return null;
-			}
-		}
-		return baseAM;
+		return _curAnimation;
 	}
-	*/
 	
-	/*
+	
+	public object getPlayerAnimationState( string stateName )
+	{
+		return _info.getAnimationState( stateName );
+	}
+	
+	public void setPlayerAnimationState( string stateName, object obj )
+	{
+		_info.setAnimationState( stateName, obj );
+	}
+	
 	//播放动作
-	public void play( AID aid )
+	public void play( string animationName, bool isCrossFade )
 	{
-		BaseAnimation am = getAnimation( aid );		
-		if ( am != null &&  _animation != null)
+		string id = _info.getAniamtionID( animationName );
+		if ( id == "" )
 		{
-			am.play( _animation, prama );
+			Debug.Log( "Function: play --  the player '" + _playerName + "' didn't have animation " + animationName );
+			return;
 		}
-		else
-		{
-			Debug.Log( "Function: play --  the player '" + _playerName + "' didn't have animation " + aid.id );
-		}
-	}
-	*/
-	
-	public void update()
-	{
-		if ( _amList == null ) return ;
-		for ( int i = 0; i < _amList.Count ; i++ )
-		{
-			(_amList[i] as BaseAnimation ).update();
-		}
-	}
-
-	
-	
-	/*
-	//设置动作时间
-	public void animationClipEvent( AID aid, AnimationEvent ae )
-	{
-		BaseAnimation am = getAnimation( aid );
 		
-		if ( am != null )
+		_curAnimation = animationName;
+		if ( isCrossFade )
 		{
-			am.setAnimationEvent( _animation, ae );
+			_animation.CrossFade( id );
 		}
 		else
 		{
-			Debug.Log( "Function: animationClipEvent --  the player '" + _playerName + "' didn't have animation " + aid.id );
+			_animation.Play( id );			
 		}
 	}
 	
-	//动作时间
-	public float animationClipTime( AID aid )
+	//播放动作
+	public IEnumerator play( string animationName, bool isCrossFade, float waitSecond, CallBackHandler handler )
 	{
-		BaseAnimation am = getAnimation( aid );
-		
-		if ( am != null )
+		string id = _info.getAniamtionID( animationName );
+		if ( id == "" )
 		{
-			return am.animationTime( _animation );
+			Debug.Log( "Function: play --  the player '" + _playerName + "' didn't have animation " + animationName );
+			yield break;
+		}
+		
+		_curAnimation = animationName;
+		if ( isCrossFade )
+		{
+			_animation.CrossFade( id );
 		}
 		else
 		{
-			Debug.Log( "Function: animationClipTime --  the player '" + _playerName + "' didn't have animation " + aid.id );
-			return 0.0f;
+			_animation.Play( id );			
 		}
+		
+		yield return new WaitForSeconds( _animation[ id ].length + waitSecond );
+		handler();
 	}
 	
-	*/
+	
+	//停止播放
+	public void stop( string animationName )
+	{
+		string id = _info.getAniamtionID( animationName );
+		if ( id == "" )
+		{
+			Debug.Log( "Function: play --  the player '" + _playerName + "' didn't have animation " + animationName );
+			return;
+		}
+		
+		_animation.Stop( id );
+	}	
 }
 
 

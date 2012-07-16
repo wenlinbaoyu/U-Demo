@@ -20,6 +20,7 @@ public class OtherAnimation : BaseAnimation
 	//method of update
 	override public void update()
 	{
+		/*
 		if ( Input.GetKeyDown( KeyCode.Tab ) )
 		{
 			_info.isTab = !_info.isTab;
@@ -32,6 +33,7 @@ public class OtherAnimation : BaseAnimation
 				_am.Play( _info.getAniamtionID("bajian") );
 			}	
 		}
+		*/
 	}
 	
 	//get animationclip time 

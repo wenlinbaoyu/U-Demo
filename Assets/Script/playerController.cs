@@ -1,18 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-
 [RequireComponent (typeof(Animation))]
-[RequireComponent (typeof(ProxyAnimationEvent))]
+[RequireComponent (typeof(CharacterController))]
 public class playerController : MonoBehaviour 
 {
-	
-	//public custom_inputs inputManager;
-	
 	//内部私有参数
 	private Camera mainCamera = null;
 	private Transform mainCameraTransform = null;
-	//private Transform rigibodyTransform = null;
 	
 	private CharacterController _controller = null;
 	private const float groundedDistance = 0.26f;
@@ -24,6 +19,9 @@ public class playerController : MonoBehaviour
 
 	//动作管理
 	private AnimationManager _mgr = null;
+	
+	//状态机
+	private StateMachine<UnityEngine.GameObject> _stateMachine;
 	
 	private float upfroce = 0.0f;
 	//info
@@ -47,31 +45,38 @@ public class playerController : MonoBehaviour
 	
     void Start () 
 	{	
+		//get CharacterController component
+		_controller = GetComponent<CharacterController>();
+		
 		//create player info
 		_info = new PlayerAnimationInfo( 1, true );
-		_info.setAllHander(typeof(Run), typeof(Attack), typeof(Idle), typeof(Jump), null, typeof(OtherAnimation) );
 		
 		//get animation manager
 		_mgr = AnimationMgrFactory.getSingleton().getManager( this.gameObject.name, 
 															  this.gameObject.animation,
 															  _info );
-		
 		Debug.Log( _mgr );
 		if ( _mgr == null )
 		{
-			Debug.LogError ( " this.gameObject.name cann't get some AnimationManager ");
+			Debug.LogError (  this.gameObject.name  + "cann't get some AnimationManager ");
 		}
 		
-		
-		_controller = GetComponent<CharacterController>();
+		_stateMachine = new StateMachine<UnityEngine.GameObject>( this.gameObject );
+		Debug.Log( _stateMachine );
+		if ( _stateMachine == null )
+		{
+			Debug.LogError ( this.gameObject.name   + "cann't get some StateMachine ");
+		}
 	}
-	
-	void OnGUI()
-	{}
-	
 	
 	void Update () 
 	{	
+		if ( _stateMachine != null)
+		{
+			_stateMachine.update();
+		}
+		
+		/*
 		bool turnDirection = false;
 		Quaternion mainCameraRotation = mainCameraTransform.rotation;
 	
@@ -146,20 +151,23 @@ public class playerController : MonoBehaviour
 		
 		
 		_controller.Move( moveDirection );
-		
+		*/
 		//Vector3 movement = rigibodyTransform.forward ;
-		_mgr.update();
+
 	}
 	
+	/*
 	void BodyJump( CommentEvent e )
 	{
 		upfroce = 50;
 		EventManager.getSingleton().removeEventListener("Player_JumpUp",  BodyJump );
-	}	
+	}
+	*/	
 	
 	
 	void FixedUpdate()
 	{
+		/*
 		grounded = _controller.isGrounded;
 		_info.isGround = grounded;
 	
@@ -193,14 +201,15 @@ public class playerController : MonoBehaviour
 			
 			//rigidbody.drag = 0.0f; 
 		}
+		*/
 	}
 	
 	
 	void OnDrawGizmos()
 	{
-		//Gizmos.color = grounded ? Color.blue : Color.red;
-		//Gizmos.DrawLine ( transform.position + transform.up * -groundedCheckOffset,
-		 //     transform.position + transform.up * -(groundedCheckOffset + groundedDistance));
+		Gizmos.color = grounded ? Color.blue : Color.red;
+		Gizmos.DrawLine ( transform.position + transform.up * -groundedCheckOffset,
+		      transform.position + transform.up * -(groundedCheckOffset + groundedDistance));
 	}
 	
 	private bool isMoveKeyDown()

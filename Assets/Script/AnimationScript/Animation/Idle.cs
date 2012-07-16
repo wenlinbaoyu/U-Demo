@@ -23,6 +23,7 @@ public class Idle : BaseAnimation
 	//method of update
 	override public void update()
 	{
+		/*
 		if ( _info.curState == PlayerAnimationState.IDLE )
 		{
 			if ( _info.isTab )
@@ -36,11 +37,14 @@ public class Idle : BaseAnimation
 				_am.CrossFade( _info.getAniamtionID("idle") );
 			}
 		}
+		*/
 	}
 	
 	//get animationclip time 
 	override public float animationTime()
 	{
+		return 0;
+		/*
 		if ( _info.isTab )
 		{
 			return _am[ _info.getAniamtionID("idle_tab") ].length; 
@@ -49,6 +53,7 @@ public class Idle : BaseAnimation
 		{
 			return _am[ _info.getAniamtionID("idle") ].length; 
 		}
+		*/
 	}
 }
 

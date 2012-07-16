@@ -28,6 +28,8 @@ public class Attack : BaseAnimation
 		am[info.getAniamtionID("attack_double_shou")].layer = AnimationLayer.NORMAL;
 		am[info.getAniamtionID("attack_double_shou")].weight = 100;
 					
+
+		
 		_handleList = new List<multipleHitHandle>();
 		base.start( am,  info );
 	}
@@ -36,8 +38,10 @@ public class Attack : BaseAnimation
 	//method of update
 	override public void update()
 	{
+		/*
 		if ( Input.GetButtonDown("Fire1"))
 		{
+		
 			if ( !_info.isGround ) return;
 			if ( _info.curState == PlayerAnimationState.JUMP ) return;
 
@@ -58,6 +62,7 @@ public class Attack : BaseAnimation
 				_handleList.Add(handle);
 			}
 		}
+		*/
 	}
 	
 	private void nextAttackAnimation()
@@ -92,7 +97,7 @@ public class Attack : BaseAnimation
 	{
 		attack_num = 0;
 		_handleList.Clear();
-		_info.curState = PlayerAnimationState.IDLE;
+		//_info.curState = PlayerAnimationState.IDLE;
 	}
 	
 	private void doubleAttack()
