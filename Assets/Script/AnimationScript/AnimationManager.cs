@@ -11,12 +11,13 @@ public class AnimationManager
 	//private Hashtable _hashtable = null ;
 	private Animation _animation = null;
 	private String _playerName = "";
-	private String _curAnimation = "";
+	//private String _curAnimation = "";
 	private PlayerAnimationInfo _info = null ;
 	
 	//call back function delegate
 	public delegate void CallBackHandler();
-		
+	public delegate void CallBackHandlerWithParam( object obj );
+	
 	public AnimationManager ( string playername , Animation animation, PlayerAnimationInfo info )
 	{
 		_animation = animation;
@@ -24,29 +25,29 @@ public class AnimationManager
 		{
 			_playerName = playername;
 			_info = info;
-			
-			start();
+			init();
 		}
 	}
 	
+	/*
 	public void start()
 	{
 		Hashtable talbe = _info.animations;
 		foreach ( DictionaryEntry de in talbe )
 		{
-			AnimationProperty property = _info.getAnimationProperty( de.Key );
+			AnimationProperty property = _info.getAnimationProperty((string)(de.Key));
 			if ( property != null )
 			{
-				_animation[de.Value].wrapMode = property.mode;
-				_animation[de.Value].layer    = property.layer;
-				_animation[de.Value].weight   = property.weight;
+				_animation[(string)(de.Value)].wrapMode = property.mode;
+				_animation[(string)(de.Value)].layer    = property.layer;
+				_animation[(string)(de.Value)].weight   = property.weight;
 				
 			}
 		}
 	}
+	*/
 	
 	
-	/*
 	private void init( PlayerAnimationInfo info )
 	{
 		_amList = new List<BaseAnimation>();
@@ -67,13 +68,14 @@ public class AnimationManager
 	{
 		return Activator.CreateInstance( type ) as BaseAnimation;
 	}
-	*/
 	
+	
+	/*
 	public String getCurrentAniamtion()
 	{
 		return _curAnimation;
 	}
-	
+	*/
 	
 	public object getPlayerAnimationState( string stateName )
 	{
@@ -89,6 +91,7 @@ public class AnimationManager
 	public void play( string animationName, bool isCrossFade )
 	{
 		string id = _info.getAniamtionID( animationName );
+		Debug.Log("JUMP");
 		if ( id == "" )
 		{
 			Debug.Log( "Function: play --  the player '" + _playerName + "' didn't have animation " + animationName );
@@ -104,30 +107,6 @@ public class AnimationManager
 		{
 			_animation.Play( id );			
 		}
-	}
-	
-	//播放动作
-	public IEnumerator play( string animationName, bool isCrossFade, float waitSecond, CallBackHandler handler )
-	{
-		string id = _info.getAniamtionID( animationName );
-		if ( id == "" )
-		{
-			Debug.Log( "Function: play --  the player '" + _playerName + "' didn't have animation " + animationName );
-			yield break;
-		}
-		
-		_curAnimation = animationName;
-		if ( isCrossFade )
-		{
-			_animation.CrossFade( id );
-		}
-		else
-		{
-			_animation.Play( id );			
-		}
-		
-		yield return new WaitForSeconds( _animation[ id ].length + waitSecond );
-		handler();
 	}
 	
 	
@@ -142,7 +121,8 @@ public class AnimationManager
 		}
 		
 		_animation.Stop( id );
-	}	
+	}
 }
+
 
 
