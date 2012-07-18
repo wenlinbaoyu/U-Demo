@@ -45,9 +45,9 @@ public class testCollision : MonoBehaviour {
 	
 	void OnTriggerStay ( Collider collider )
 	{
-		Debug.Log("test player OnTriggerStay ");
-		Debug.Log("---------------------------");
-		Debug.Log("name : " + collider.name );		
+		//Debug.Log("test player OnTriggerStay ");
+		//Debug.Log("---------------------------");
+		//Debug.Log("name : " + collider.name );		
 	}
 }
 	

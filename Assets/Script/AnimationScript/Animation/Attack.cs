@@ -51,6 +51,8 @@ public class Attack : BaseAnimation
 			
 			if ( attack_num == 0)
 			{
+				GameObject.Find("Bip002 Prop1").collider.enabled = true;
+				
 				attack_num = 1;
 				_am.Play( _info.getAniamtionID("attack") );
 				_mono.StartCoroutine( wait(animationTime("attack"), nextAttackAnimation));
@@ -82,6 +84,7 @@ public class Attack : BaseAnimation
 		}
 		else
 		{
+			GameObject.Find("Bip002 Prop1").collider.enabled = false;
 			playEndAnimation();
 		}
 	}

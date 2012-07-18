@@ -28,7 +28,7 @@ public class RunState : State< MainPlayerController >
 		}
 		else if ( Input.GetButtonDown("Fire1"))
 		{
-			obj.stdateMachine.changeState( AttackState.getIntance());
+			obj.stateMachine.changeState( AttackState.getIntance());
 		}
 		else if ( Input.GetButton("Vertical") || Input.GetButton("Horizontal") )
 		{
