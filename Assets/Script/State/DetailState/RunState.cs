@@ -15,22 +15,9 @@ public class RunState : State< MainPlayerController >
 	}
 	
 	private RunState (){}
-	
-	
-	private Transform _transform = null;
-	private CharacterController _controller = null;
-	
 	override public void Enter( MainPlayerController obj )
 	{
-		isTab = (bool)obj.mgr.getPlayerAnimationState("isTab");
-		if ( isTab )
-			obj.mgr.play("run_tab", true);
-		else
-			obj.mgr.play("run", true);
-		
-		
-		_transform = obj.gameObject.transform;
-		_controller = obj.ccontroller;
+		obj.mgr.enter("runHandler");
 	}
 	
 	override public void Execute( MainPlayerController obj )
@@ -41,8 +28,7 @@ public class RunState : State< MainPlayerController >
 		}
 		else if ( Input.GetButtonDown("Fire1"))
 		{
-			//转换攻击状态
-			int g = 1;
+			obj.stdateMachine.changeState( AttackState.getIntance());
 		}
 		else if ( Input.GetButton("Vertical") || Input.GetButton("Horizontal") )
 		{
@@ -63,21 +49,6 @@ public class RunState : State< MainPlayerController >
 	{
 		
 	}
-	
-	private void swap( ref float num1, ref float num2 )
-	{
-		float temp = num1;
-		num2 = num1;
-		num1 = temp;	
-	}
-	
-	private float ClampAngle( float angle , float min , float max ) 
-	{
-		if (angle < -360)	angle += 360;
-		if (angle > 360) 	angle -= 360;
-		return Mathf.Clamp (angle, min, max);
-	}	
-	
 }
 
 

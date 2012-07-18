@@ -18,19 +18,31 @@ public class IdleState : State< MainPlayerController >
 	
 	override public void Enter( MainPlayerController obj )
 	{
-		obj.mgr.play("idle", true);
+		obj.mgr.enter("idleHandler");
 	}
 	
 	override public void Execute( MainPlayerController obj )
 	{
-		if ( Input.GetButton("Vertical") || Input.GetButton("Horizontal") )
+		if ( Input.anyKey )
 		{
-			obj.stateMachine.changeState( RunState.getIntance() );
+			if ( Input.GetButton("Vertical") || Input.GetButton("Horizontal") )
+			{
+				obj.stateMachine.changeState( RunState.getIntance() );
+			}
+			else if ( Input.GetKeyDown( KeyCode.Space ))
+			{
+				obj.stateMachine.changeState( JumpState.getIntance() );
+			}
+			else if ( Input.GetButtonDown("Fire1"))
+			{
+				obj.stateMachine.changeState( AttackState.getIntance());
+			}
+			else
+			{
+				obj.stateMachine.changeState( OtherState.getIntance());
+			}
 		}
-		else if ( Input.GetKeyDown( KeyCode.Space ))
-		{
-			obj.stateMachine.changeState( JumpState.getIntance() );
-		}
+
 	}
 	
 	override public void Exit( MainPlayerController obj )

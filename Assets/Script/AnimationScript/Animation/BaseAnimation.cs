@@ -5,15 +5,21 @@ using UnityEngine;
 //所有动作的基类
 public class BaseAnimation
 {
+	protected MonoBehaviour _mono = null;
 	protected Animation _am = null;
 	protected PlayerAnimationInfo _info = null;
 	
 	//method of start
-	virtual public void start(Animation am, PlayerAnimationInfo info )
+	virtual public void start(MonoBehaviour mono, PlayerAnimationInfo info )
 	{
-		_am   = am;
+		_mono = mono;
+		_am   = mono.animation;
 		_info = info;
 	}
+	
+	virtual public void enter(){}
+	
+	virtual public void exit(){}
 	
 	//method of update
 	virtual public void update(){}

@@ -1,31 +1,28 @@
 using System;
-using System.Collections;
-using UnityEngine;
 
-public class AttackState : State< MainPlayerController >
+
+public class OtherState : State<MainPlayerController>
 {
-	
-	public static AttackState intance = null;
-	public static AttackState getIntance()
+	public static OtherState intance = null;
+	public static OtherState getIntance()
 	{
 		if ( intance == null )
 		{
-			intance = new AttackState();
+			intance = new OtherState();
 		}
 		return intance;
-	}
+	}	
 	
-	private AttackState (){}
+	private OtherState (){}
 	
 	override public void Enter( MainPlayerController obj )
 	{
-		obj.mgr.enter("attackHandler");
-		
+		obj.mgr.enter("otherHandler");
 	}
 	
 	override public void Execute( MainPlayerController obj )
 	{
-		obj.mgr.update("attackHandler");
+		obj.mgr.update("otherHandler");
 		
 		bool isFinish = (bool)obj.mgr.getPlayerAnimationState("ANMIATIONSTATE_FINISH");
 		if ( isFinish )
@@ -36,7 +33,7 @@ public class AttackState : State< MainPlayerController >
 	
 	override public void Exit( MainPlayerController obj )
 	{
-		obj.mgr.exit("attackHandler");
-	}
+		obj.mgr.exit("otherHandler");
+	}	
 }
 

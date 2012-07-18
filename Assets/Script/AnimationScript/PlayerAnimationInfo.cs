@@ -103,19 +103,18 @@ public class PlayerAnimationInfo
 	{
 		_animationState = new Hashtable();
 		
-		_animationState.Add( "isTab", false );
+		_animationState.Add( "ANMIATIONSTATE_ISTAB", false );
 		
-		_animationState.Add( "isGround", true);
+		_animationState.Add( "ANMIATIONSTATE_ISGROUND", true);
 		
-		_animationState.Add( "jumpState", JumpType.JUMP_NULL );
+		_animationState.Add( "ANMIATIONSTATE_JUMPTYPE", "");
 		
-		_animationState.Add( "attackNum", 0);
+		_animationState.Add( "ANMIATIONSTATE_FINISH", false);
 	}
 	
 	private void init()
 	{
 		_animationIndex = new Hashtable();
-		_animationProperty = new Hashtable();
 	
 		//animation number		
 		//1 待机*  id:1001
@@ -225,11 +224,3 @@ public class AnimationProperty
 */
 
 
-public class JumpType
-{
-	public static int JUMP_BEGIN = 1;
-	public static int JUMP_UP    = 2;
-	public static int JUMP_DOWN  = 3;
-	public static int JUMP_FALL  = 4;
-	public static int JUMP_NULL  = 5;
-}

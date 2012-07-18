@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 public class AnimationManager
 {
-	private List<BaseAnimation> _amList;
+	private Hashtable _amList;
 	//private Hashtable _hashtable = null ;
-	private Animation _animation = null;
+	//private Animation _animation = null;
 	private String _playerName = "";
 	//private String _curAnimation = "";
 	private PlayerAnimationInfo _info = null ;
@@ -18,15 +18,12 @@ public class AnimationManager
 	public delegate void CallBackHandler();
 	public delegate void CallBackHandlerWithParam( object obj );
 	
-	public AnimationManager ( string playername , Animation animation, PlayerAnimationInfo info )
+	public AnimationManager ( MonoBehaviour mono, PlayerAnimationInfo info )
 	{
-		_animation = animation;
-		if ( _animation )
-		{
-			_playerName = playername;
-			_info = info;
-			init();
-		}
+		//_animation = mono.animation;
+		_playerName = mono.gameObject.name;
+		_info = info;
+		init( mono , info);
 	}
 	
 	/*
@@ -48,19 +45,19 @@ public class AnimationManager
 	*/
 	
 	
-	private void init( PlayerAnimationInfo info )
+	private void init( MonoBehaviour mono, PlayerAnimationInfo info )
 	{
-		_amList = new List<BaseAnimation>();
-		if ( info.hasHandler("runHandler"))  	  _amList.Add( createInstance( info.getHandler("runHandler") ) );
-		if ( info.hasHandler("attackHandler"))    _amList.Add( createInstance( info.getHandler("attackHandler") ) );
-		if ( info.hasHandler("idleHandler"))      _amList.Add( createInstance( info.getHandler("idleHandler") ) );
-		if ( info.hasHandler("jumpHandler"))      _amList.Add( createInstance( info.getHandler("jumpHandler") ) );
-		if ( info.hasHandler("shortcutHandler"))  _amList.Add( createInstance( info.getHandler("shortcutHandler") ) );
-		if ( info.hasHandler("otherHandler"))  	  _amList.Add( createInstance( info.getHandler("otherHandler") ) );
+		_amList = new Hashtable();
+		if ( info.hasHandler("runHandler"))  	  _amList.Add("runHandler",  createInstance( info.getHandler("runHandler") ) );
+		if ( info.hasHandler("attackHandler"))    _amList.Add("attackHandler", createInstance( info.getHandler("attackHandler") ) );
+		if ( info.hasHandler("idleHandler"))      _amList.Add("idleHandler", createInstance( info.getHandler("idleHandler") ) );
+		if ( info.hasHandler("jumpHandler"))      _amList.Add("jumpHandler", createInstance( info.getHandler("jumpHandler") ) );
+		if ( info.hasHandler("shortcutHandler"))  _amList.Add("shortcutHandler", createInstance( info.getHandler("shortcutHandler") ) );
+		if ( info.hasHandler("otherHandler"))  	  _amList.Add("otherHandler",  createInstance( info.getHandler("otherHandler") ) );
 		
-		for ( int i = 0; i < _amList.Count ; i ++ )
+		foreach ( DictionaryEntry de in _amList )
 		{
-			(_amList[i] as BaseAnimation).start(_animation, info );
+			(de.Value as BaseAnimation).start( mono, info );
 		}
 	}
 	
@@ -69,13 +66,6 @@ public class AnimationManager
 		return Activator.CreateInstance( type ) as BaseAnimation;
 	}
 	
-	
-	/*
-	public String getCurrentAniamtion()
-	{
-		return _curAnimation;
-	}
-	*/
 	
 	public object getPlayerAnimationState( string stateName )
 	{
@@ -87,40 +77,19 @@ public class AnimationManager
 		_info.setAnimationState( stateName, obj );
 	}
 	
-	//播放动作
-	public void play( string animationName, bool isCrossFade )
+	public void enter( string name )
 	{
-		string id = _info.getAniamtionID( animationName );
-		Debug.Log("JUMP");
-		if ( id == "" )
-		{
-			Debug.Log( "Function: play --  the player '" + _playerName + "' didn't have animation " + animationName );
-			return;
-		}
-		
-		_curAnimation = animationName;
-		if ( isCrossFade )
-		{
-			_animation.CrossFade( id );
-		}
-		else
-		{
-			_animation.Play( id );			
-		}
+		( _amList[name] as BaseAnimation ).enter();
 	}
 	
-	
-	//停止播放
-	public void stop( string animationName )
+	public void update( string name )
 	{
-		string id = _info.getAniamtionID( animationName );
-		if ( id == "" )
-		{
-			Debug.Log( "Function: play --  the player '" + _playerName + "' didn't have animation " + animationName );
-			return;
-		}
-		
-		_animation.Stop( id );
+		( _amList[name] as BaseAnimation ).update();
+	}
+
+	public void exit( string name )
+	{
+		( _amList[name] as BaseAnimation ).exit();
 	}
 }
 

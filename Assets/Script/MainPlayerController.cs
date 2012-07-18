@@ -62,9 +62,7 @@ public class MainPlayerController : MonoBehaviour
 						   typeof(OtherAnimation));
 		
 		//get animation manager
-		mgr = AnimationMgrFactory.getSingleton().getManager( this.gameObject.name, 
-															 this.gameObject.animation,
-															  _info );
+		mgr = AnimationMgrFactory.getSingleton().getManager( this,  _info );
 		Debug.Log( mgr );
 		if ( mgr == null )
 		{
@@ -79,6 +77,7 @@ public class MainPlayerController : MonoBehaviour
 		}
 		else
 		{
+			stateMachine.setGlobalState( GlobalState.getInstance());
 			stateMachine.setCurrentState( IdleState.getIntance() );
 		}
 	}
@@ -289,10 +288,14 @@ public class MainPlayerController : MonoBehaviour
 			moveDirection.z *=  speed;
 		}
 	
-		moveDirection.y -= gravity * Time.deltaTime;
+		
 		ccontroller.Move( moveDirection * Time.deltaTime );
 	}
 	
+	public void Down()
+	{
+		moveDirection.y -= gravity * Time.deltaTime;
+	}
 	
 	public void Jump()
 	{

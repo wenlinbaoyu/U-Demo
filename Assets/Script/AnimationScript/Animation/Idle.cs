@@ -5,20 +5,36 @@ using UnityEngine;
 public class Idle : BaseAnimation
 {	
 	//method of start
-	override public void start( Animation am , PlayerAnimationInfo info )
+	override public void start( MonoBehaviour mono , PlayerAnimationInfo info )
 	{
-		am[info.getAniamtionID("idle")].wrapMode = WrapMode.Loop;
-		am[info.getAniamtionID("idle")].layer = AnimationLayer.LOWEST;
-		am[info.getAniamtionID("idle")].weight = 100;
+		base.start( mono,  info );
+		
+		_am[info.getAniamtionID("idle")].wrapMode = WrapMode.Loop;
+		_am[info.getAniamtionID("idle")].layer = AnimationLayer.LOWEST;
+		_am[info.getAniamtionID("idle")].weight = 100;
 		
 		
-		am[info.getAniamtionID("idle_tab")].wrapMode = WrapMode.Loop;
-		am[info.getAniamtionID("idle_tab")].layer = AnimationLayer.LOWEST;
-		am[info.getAniamtionID("idle_tab")].weight = 100;
+		_am[info.getAniamtionID("idle_tab")].wrapMode = WrapMode.Loop;
+		_am[info.getAniamtionID("idle_tab")].layer = AnimationLayer.LOWEST;
+		_am[info.getAniamtionID("idle_tab")].weight = 100;
 
-		base.start( am,  info );
 	}
 	
+	
+	override public void enter()
+	{
+		bool isTab = (bool)_info.getAnimationState("ANMIATIONSTATE_ISTAB");
+		if ( isTab )
+		{
+			_am.Stop( _info.getAniamtionID("idle") );
+			_am.CrossFade( _info.getAniamtionID("idle_tab") );
+		}
+		else
+		{
+			_am.Stop( _info.getAniamtionID("idle_tab") );
+			_am.CrossFade( _info.getAniamtionID("idle") );
+		}
+	}
 	
 	//method of update
 	override public void update()
@@ -43,9 +59,8 @@ public class Idle : BaseAnimation
 	//get animationclip time 
 	override public float animationTime()
 	{
-		return 0;
-		/*
-		if ( _info.isTab )
+		bool isTab = (bool)_info.getAnimationState("ANMIATIONSTATE_ISTAB");
+		if ( isTab )
 		{
 			return _am[ _info.getAniamtionID("idle_tab") ].length; 
 		}
@@ -53,7 +68,6 @@ public class Idle : BaseAnimation
 		{
 			return _am[ _info.getAniamtionID("idle") ].length; 
 		}
-		*/
 	}
 }
 

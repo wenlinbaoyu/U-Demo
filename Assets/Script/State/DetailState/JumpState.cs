@@ -14,20 +14,21 @@ public class JumpState : State< MainPlayerController >
 	}
 	
 	private JumpState () {}
-	private const float jumpspeed = 0.8f;
+	
+	private float jumpspeed = 0.8f;
 	override public void Enter( MainPlayerController obj )
 	{
-		obj.mgr.play("jump_begin", false);
-		obj.mgr.setPlayerAnimationState("jumpState", JumpType.JUMP_BEGIN);
-		obj.StartCoroutine( wait( obj.mgr.getAniamtionLength("jump_begin"), obj) );
+		obj.mgr.enter("jumpHandler");
 	}
 	
 	override public void Execute( MainPlayerController obj )
-	{
-		int type = (int)obj.mgr.getPlayerAnimationState("jumpState");
+	{	
+		string jumpstate = (string)obj.mgr.getPlayerAnimationState("ANMIATIONSTATE_JUMPTYPE");
 		
-		if ( (Input.GetButton("Vertical") || Input.GetButton("Horizontal")) && 
-			type != JumpType.JUMP_FALL && type != JumpType.JUMP_BEGIN )
+		obj.mgr.setPlayerAnimationState("ANMIATIONSTATE_ISGROUND", obj.ccontroller.isGrounded);
+		obj.mgr.update("jumpHandler");
+		
+		if ( (Input.GetButton("Vertical") || Input.GetButton("Horizontal")) && jumpstate != "jumpBegin" && jumpstate != "jumpFall" )
 		{
 			if ( Input.GetButton("Horizontal") )
 				obj.Move( 0.0f, Mathf.Abs(Input.GetAxis("Horizontal")) * jumpspeed);
@@ -36,56 +37,21 @@ public class JumpState : State< MainPlayerController >
 		}
 		else
 		{
-			obj.Move(0, 0);
+			obj.Move(0.0f, 0.0f);
 		}
 		
-		if ( obj.ccontroller.isGrounded && type == JumpType.JUMP_DOWN )
+		if ( obj.ccontroller.isGrounded && jumpstate == "jumpUp")
 		{
-			EndAniamtion( obj );
+			obj.Jump();
+		}
+		else if ( obj.ccontroller.isGrounded && jumpstate == "jumpNull" )
+		{
+			obj.stateMachine.changeState( IdleState.getIntance());
 		}
 	}
 	
 	override public void Exit( MainPlayerController obj )
 	{
-		obj.mgr.setPlayerAnimationState("jumpState", JumpType.JUMP_NULL);
-	}
-	
-	
-	private IEnumerator wait( float second, object obj )
-	{
-		yield return new WaitForSeconds( second );
-		EndAniamtion( obj );
-	}
-	
-	private void EndAniamtion( object obj  )
-	{ 
-
-		MainPlayerController controller = obj as MainPlayerController;
-		int type = (int)controller.mgr.getPlayerAnimationState("jumpState");
-		
-		if ( type == JumpType.JUMP_BEGIN)
-		{
-			controller.Jump();
-			controller.mgr.setPlayerAnimationState("jumpState", JumpType.JUMP_UP);
-			controller.mgr.play( "jump_up", false );
-			controller.StartCoroutine( wait( controller.mgr.getAniamtionLength("jump_up"), obj));
-		}
-		else if ( type == JumpType.JUMP_UP )
-		{
-			controller.mgr.play("jump_down", false);
-			controller.mgr.setPlayerAnimationState("jumpState", JumpType.JUMP_DOWN);
-
-		}
-		else if ( type == JumpType.JUMP_DOWN )
-		{
-			controller.mgr.setPlayerAnimationState("jumpState", JumpType.JUMP_FALL);
-			
-			controller.mgr.play( "fall", false );
-			controller.StartCoroutine( wait( controller.mgr.getAniamtionLength("fall"), obj));					
-		}
-		else if ( type == JumpType.JUMP_FALL )
-		{
-			controller.stateMachine.changeState( IdleState.getIntance() );	
-		}
+		obj.mgr.exit("jumpHandler");
 	}
 }

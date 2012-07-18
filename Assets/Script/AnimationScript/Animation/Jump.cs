@@ -1,163 +1,82 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Jump : BaseAnimation
 {
-	enum JumpState
+	enum JumpType
 	{
 		JUMP_BEGIN = 1,
 		JUMP_UP    = 2,
 		JUMP_DOWN  = 3,
 		JUMP_FALL  = 4,
+		JUMP_NULL  = 5,
 	}
 	
-	
-	private JumpState curJumpState = JumpState.JUMP_BEGIN;
+	private JumpType _curJumpType = JumpType.JUMP_NULL;
+	private const float jumpspeed = 0.8f;
+
 	//method of start
-	override public void start( Animation am , PlayerAnimationInfo info )
-	{
-		am[info.getAniamtionID("jump_begin")].wrapMode = WrapMode.Once;
-		am[info.getAniamtionID("jump_begin")].layer = AnimationLayer.NORMAL;
-		am[info.getAniamtionID("jump_begin")].weight = 100;
-		
-		
-		am[info.getAniamtionID("jump_up")].wrapMode = WrapMode.Once;
-		am[info.getAniamtionID("jump_up")].layer = AnimationLayer.NORMAL;
-		am[info.getAniamtionID("jump_up")].weight = 100;
-		
-		
-		
-		am[info.getAniamtionID("jump_down")].wrapMode = WrapMode.ClampForever;
-		am[info.getAniamtionID("jump_down")].layer = AnimationLayer.NORMAL;
-		am[info.getAniamtionID("jump_down")].weight = 100;		
 	
+	override public void start( MonoBehaviour mono, PlayerAnimationInfo info )
+	{
+		base.start( mono,  info );
 		
+		_am[info.getAniamtionID("jump_begin")].wrapMode = WrapMode.Once;
+		_am[info.getAniamtionID("jump_begin")].layer = AnimationLayer.NORMAL;
+		_am[info.getAniamtionID("jump_begin")].weight = 100;
 		
-		am[info.getAniamtionID("fall")].wrapMode = WrapMode.Once;
-		am[info.getAniamtionID("fall")].layer = AnimationLayer.NORMAL;
-		am[info.getAniamtionID("fall")].weight = 100;			
+		_am[info.getAniamtionID("jump_up")].wrapMode = WrapMode.Once;
+		_am[info.getAniamtionID("jump_up")].layer = AnimationLayer.NORMAL;
+		_am[info.getAniamtionID("jump_up")].weight = 100;
+		
+		_am[info.getAniamtionID("jump_down")].wrapMode = WrapMode.ClampForever;
+		_am[info.getAniamtionID("jump_down")].layer = AnimationLayer.NORMAL;
+		_am[info.getAniamtionID("jump_down")].weight = 100;		
+	
+		_am[info.getAniamtionID("fall")].wrapMode = WrapMode.Once;
+		_am[info.getAniamtionID("fall")].layer = AnimationLayer.NORMAL;
+		_am[info.getAniamtionID("fall")].weight = 100;			
 			
-		
-		base.start( am,  info );
 	}
 	
+	
+	override public void enter()
+	{
+		_curJumpType = JumpType.JUMP_BEGIN;
+		_am.Play( _info.getAniamtionID("jump_begin"));
+		_mono.StartCoroutine( wait( animationTime() ) );
+		_info.setAnimationState("ANMIATIONSTATE_JUMPTYPE", "jumpBegin");
+	}
 	
 	//method of update
 	override public void update()
 	{
-		/*
-		if ( _info.curState == PlayerAnimationState.JUMP  && _info.isGround )
+		bool isGround = (bool)_info.getAnimationState("ANMIATIONSTATE_ISGROUND");
+		if ( isGround && _curJumpType == JumpType.JUMP_DOWN )
 		{
-			EventManager.getSingleton().sendMsg( "Player_Fall" );
-		}
-		
-		if ( Input.GetButtonDown("Jump"))
-		{
-			//if ( curJumpState == JumpState.JUMP_BEGIN )
-			//{
- 				_info.curState = PlayerAnimationState.JUMP;
-				//_am.Stop( _info.getAniamtionID("jump_up") );
-				_am.Stop( _info.getAniamtionID("jump_down") );
-				//_am.Stop( _info.getAniamtionID("fall") );
-				//_am.Stop( _info.getAniamtionID("jump_begin") );
-			
-				setAnimationMsg("jump_begin", true);
-			//}
-		}
-		
-		*/
-	}
-
-	private void setAnimationMsg( string animationName, bool isSetMsg )
-	{
-		string id = _info.getAniamtionID(animationName);
-		_am.Play(id);
-		
-		if ( isSetMsg )
-		{ 
-			AnimationEvent e = ProxyAnimationEvent.getAmimationEvent( "nextAnimation", nextAnimation );
-			e.time = animationTime();
-			setAnimationEvent( _info.getAniamtionID(animationName), e );
-		}		
-	}
-	
-	
-	private void nextAnimation()
-	{
-		/*
-		if ( _info.curState == PlayerAnimationState.JUMP )
-		{
-			switch( curJumpState )
-			{
-				case JumpState.JUMP_BEGIN:
-				{
-					curJumpState = JumpState.JUMP_UP;
-					setAnimationMsg("jump_up", true);
-				
-					//send jump up msg
-					EventManager.getSingleton().sendMsg("Player_JumpUp");
-				
-					break;
-				}
-				case JumpState.JUMP_UP:
-				{
- 					curJumpState = JumpState.JUMP_DOWN;
-					setAnimationMsg("jump_down", false);
-				
-					//listen jump down msg
-					EventManager.getSingleton().addEventListener( "Player_Fall", Fall );
-					break;
-				}
-				case JumpState.JUMP_DOWN:
-				{
-					curJumpState = JumpState.JUMP_FALL;
-					EventManager.getSingleton().removeEventListener( "Player_Fall", Fall );
-					_am.Blend(_info.getAniamtionID("jump_down"), 0.0f, 0.1f);
-					setAnimationMsg("fall", true);		
-					break;
-				}
-				case JumpState.JUMP_FALL:
-				{
-					curJumpState = JumpState.JUMP_BEGIN;
-					_info.curState = PlayerAnimationState.IDLE;
-					return;
-				}
-				default:
-				{
-				 	_info.curState = PlayerAnimationState.IDLE;
-					return;
-				}
-			}				
-		}
-		*/
-	}
-	
-	private void Fall( CommentEvent e )
-	{
-		if ( e.eventType == "Player_Fall" && curJumpState == JumpState.JUMP_DOWN )
-		{
-			nextAnimation();
+			EndAniamtion();
 		}
 	}
 	
 	//get animationclip time 
 	override public float animationTime()
 	{
-		switch( curJumpState )
+		switch( _curJumpType )
 		{
-			case JumpState.JUMP_BEGIN:
+			case JumpType.JUMP_BEGIN:
 			{
 				return _am[_info.getAniamtionID("jump_begin")].length;
 			}
-			case JumpState.JUMP_UP:
+			case JumpType.JUMP_UP:
 			{
 				return _am[_info.getAniamtionID("jump_up")].length;
 			}
-			case JumpState.JUMP_DOWN:
+			case JumpType.JUMP_DOWN:
 			{
 				return _am[_info.getAniamtionID("jump_down")].length;
 			}
-			case JumpState.JUMP_FALL:
+			case JumpType.JUMP_FALL:
 			{
 				return _am[_info.getAniamtionID("fall")].length;
 			}
@@ -166,5 +85,55 @@ public class Jump : BaseAnimation
 				return 0.0f;
 			}
 		} 
+	}
+	
+	private IEnumerator wait( float second )
+	{
+		yield return new WaitForSeconds( second );
+		
+		EndAniamtion();
+	}
+	
+	private void EndAniamtion( )
+	{ 
+		switch( _curJumpType )
+		{
+			case JumpType.JUMP_BEGIN:
+			{
+				//controller.Jump();
+				_curJumpType = JumpType.JUMP_UP;
+			
+				_info.setAnimationState("ANMIATIONSTATE_JUMPTYPE", "jumpUp");
+				_am.Play( _info.getAniamtionID("jump_up"));
+				_mono.StartCoroutine( wait( animationTime()));
+				break;
+			}
+			case JumpType.JUMP_UP:
+			{
+				_curJumpType = JumpType.JUMP_DOWN;
+				_info.setAnimationState("ANMIATIONSTATE_JUMPTYPE", "jumpDown");
+				_am.Play( _info.getAniamtionID("jump_down"));
+				break;
+			}
+			case JumpType.JUMP_DOWN:
+			{
+				_curJumpType = JumpType.JUMP_FALL;
+				_am.Play( _info.getAniamtionID("fall"));
+				_info.setAnimationState("ANMIATIONSTATE_JUMPTYPE", "jumpFall");
+				_mono.StartCoroutine( wait( animationTime()));
+				break;
+			}
+			case JumpType.JUMP_FALL:
+			{
+				_curJumpType = JumpType.JUMP_NULL;
+				_info.setAnimationState("ANMIATIONSTATE_JUMPTYPE", "jumpNull");
+				break;
+			}
+			default:
+			{
+				break;
+			}
+		} 
 	}	
+	
 }
