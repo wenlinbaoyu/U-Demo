@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class IdleState : State< MainPlayerController >
+public class IdleState : State< BaseController >
 {
 	public static IdleState intance = null;
 	public static IdleState getIntance()
@@ -16,12 +16,12 @@ public class IdleState : State< MainPlayerController >
 	
 	private IdleState (){}
 	
-	override public void Enter( MainPlayerController obj )
+	override public void Enter( BaseController obj )
 	{
 		obj.mgr.enter("idleHandler");
 	}
 	
-	override public void Execute( MainPlayerController obj )
+	override public void Execute( BaseController obj )
 	{
 		if ( Input.anyKey )
 		{
@@ -45,7 +45,7 @@ public class IdleState : State< MainPlayerController >
 
 	}
 	
-	override public void Exit( MainPlayerController obj )
+	override public void Exit( BaseController obj )
 	{
 		
 	}

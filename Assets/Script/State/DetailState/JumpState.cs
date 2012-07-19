@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class JumpState : State< MainPlayerController >
+public class JumpState : State< BaseController >
 {
 	public static JumpState intance = null;
 	public static JumpState getIntance()
@@ -16,12 +16,12 @@ public class JumpState : State< MainPlayerController >
 	private JumpState () {}
 	
 	private float jumpspeed = 0.8f;
-	override public void Enter( MainPlayerController obj )
+	override public void Enter( BaseController obj )
 	{
 		obj.mgr.enter("jumpHandler");
 	}
 	
-	override public void Execute( MainPlayerController obj )
+	override public void Execute( BaseController obj )
 	{	
 		string jumpstate = (string)obj.mgr.getPlayerAnimationState("ANMIATIONSTATE_JUMPTYPE");
 		
@@ -50,7 +50,7 @@ public class JumpState : State< MainPlayerController >
 		}
 	}
 	
-	override public void Exit( MainPlayerController obj )
+	override public void Exit( BaseController obj )
 	{
 		obj.mgr.exit("jumpHandler");
 	}

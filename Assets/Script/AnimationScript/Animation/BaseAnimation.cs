@@ -5,15 +5,15 @@ using UnityEngine;
 //所有动作的基类
 public class BaseAnimation
 {
-	protected MonoBehaviour _mono = null;
+	protected BaseController _controller = null;
 	protected Animation _am = null;
 	protected PlayerAnimationInfo _info = null;
 	
 	//method of start
-	virtual public void start(MonoBehaviour mono, PlayerAnimationInfo info )
+	virtual public void start(BaseController controller, PlayerAnimationInfo info )
 	{
-		_mono = mono;
-		_am   = mono.animation;
+		_controller = controller;
+		_am   = controller.animation;
 		_info = info;
 	}
 	

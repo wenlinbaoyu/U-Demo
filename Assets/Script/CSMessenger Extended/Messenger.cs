@@ -85,7 +85,6 @@ static internal class MessengerInternal
     }
 }
 
-
 // No parameters
 static public class Messenger {
     private static Dictionary<string, Delegate> eventTable = MessengerInternal.eventTable;
@@ -219,3 +218,5 @@ static public class Messenger<T, U, V> {
         }
     }
 }
+
+

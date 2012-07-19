@@ -11,9 +11,9 @@ public class Attack : BaseAnimation
 		
 	
 	//method of start
-	override public void start( MonoBehaviour mono , PlayerAnimationInfo info )
+	override public void start( BaseController controller , PlayerAnimationInfo info )
 	{
-		base.start( mono,  info );
+		base.start( controller,  info );
 		
 		_am[info.getAniamtionID("attack")].wrapMode = WrapMode.ClampForever;
 		_am[info.getAniamtionID("attack")].layer = AnimationLayer.NORMAL;
@@ -55,7 +55,7 @@ public class Attack : BaseAnimation
 				
 				attack_num = 1;
 				_am.Play( _info.getAniamtionID("attack") );
-				_mono.StartCoroutine( wait(animationTime("attack"), nextAttackAnimation));
+				_controller.StartCoroutine( wait(animationTime("attack"), nextAttackAnimation));
 			}
 		}
 	}
@@ -98,7 +98,7 @@ public class Attack : BaseAnimation
 		
 		_am.Play( _info.getAniamtionID(endAnimation) );
 		
-		_mono.StartCoroutine( wait(animationTime(endAnimation), endAttackAnimation));
+		_controller.StartCoroutine( wait(animationTime(endAnimation), endAttackAnimation));
 	}
 	
 	private void endAttackAnimation()
@@ -112,7 +112,7 @@ public class Attack : BaseAnimation
 	{
 		_am.Play( _info.getAniamtionID("attack_double") );
 		
-		_mono.StartCoroutine( wait(animationTime("attack_double"), nextAttackAnimation));
+		_controller.StartCoroutine( wait(animationTime("attack_double"), nextAttackAnimation));
 	}
 	
 	//get animationclip time 

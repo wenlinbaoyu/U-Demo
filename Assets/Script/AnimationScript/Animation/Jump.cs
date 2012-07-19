@@ -18,9 +18,9 @@ public class Jump : BaseAnimation
 
 	//method of start
 	
-	override public void start( MonoBehaviour mono, PlayerAnimationInfo info )
+	override public void start( BaseController controller, PlayerAnimationInfo info )
 	{
-		base.start( mono,  info );
+		base.start( controller,  info );
 		
 		_am[info.getAniamtionID("jump_begin")].wrapMode = WrapMode.Once;
 		_am[info.getAniamtionID("jump_begin")].layer = AnimationLayer.NORMAL;
@@ -45,7 +45,7 @@ public class Jump : BaseAnimation
 	{
 		_curJumpType = JumpType.JUMP_BEGIN;
 		_am.Play( _info.getAniamtionID("jump_begin"));
-		_mono.StartCoroutine( wait( animationTime() ) );
+		_controller.StartCoroutine( wait( animationTime() ) );
 		_info.setAnimationState("ANMIATIONSTATE_JUMPTYPE", "jumpBegin");
 	}
 	
@@ -105,7 +105,7 @@ public class Jump : BaseAnimation
 			
 				_info.setAnimationState("ANMIATIONSTATE_JUMPTYPE", "jumpUp");
 				_am.Play( _info.getAniamtionID("jump_up"));
-				_mono.StartCoroutine( wait( animationTime()));
+				_controller.StartCoroutine( wait( animationTime()));
 				break;
 			}
 			case JumpType.JUMP_UP:
@@ -120,7 +120,7 @@ public class Jump : BaseAnimation
 				_curJumpType = JumpType.JUMP_FALL;
 				_am.Play( _info.getAniamtionID("fall"));
 				_info.setAnimationState("ANMIATIONSTATE_JUMPTYPE", "jumpFall");
-				_mono.StartCoroutine( wait( animationTime()));
+				_controller.StartCoroutine( wait( animationTime()));
 				break;
 			}
 			case JumpType.JUMP_FALL:

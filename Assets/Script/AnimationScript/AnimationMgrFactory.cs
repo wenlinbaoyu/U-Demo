@@ -10,9 +10,9 @@ using UnityEngine;
 public class AnimationMgrFactory : Singleton<AnimationMgrFactory>
 {
 	//private AnimationMgrFactory (){}
-	public AnimationManager getManager( MonoBehaviour mono, PlayerAnimationInfo info )
+	public AnimationManager getManager( BaseController controller, PlayerAnimationInfo info )
 	{
-		AnimationManager mgr = new AnimationManager( mono, info );
+		AnimationManager mgr = new AnimationManager( controller, info );
 		return mgr;
 	}
 }

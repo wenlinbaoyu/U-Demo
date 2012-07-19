@@ -1,7 +1,7 @@
 using System;
 
 
-public class GlobalState : State<MainPlayerController>
+public class GlobalState : State<BaseController>
 {
 	private static GlobalState _instance = null;
 	public static GlobalState getInstance()
@@ -15,17 +15,17 @@ public class GlobalState : State<MainPlayerController>
 	
 	private GlobalState (){}
 	
-	override public void Enter( MainPlayerController obj )
+	override public void Enter( BaseController obj )
 	{
 		
 	}
 	
-	override public void Execute( MainPlayerController obj )
+	override public void Execute( BaseController obj )
 	{
 		obj.Down();	
 	}
 	
-	override public void Exit( MainPlayerController obj )
+	override public void Exit( BaseController obj )
 	{
 		
 	}	

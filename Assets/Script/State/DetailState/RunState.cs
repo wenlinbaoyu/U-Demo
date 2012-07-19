@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class RunState : State< MainPlayerController >
+public class RunState : State< BaseController >
 {
 	private bool isTab = false;
 	public static RunState intance = null;
@@ -15,12 +15,12 @@ public class RunState : State< MainPlayerController >
 	}
 	
 	private RunState (){}
-	override public void Enter( MainPlayerController obj )
+	override public void Enter( BaseController obj )
 	{
 		obj.mgr.enter("runHandler");
 	}
 	
-	override public void Execute( MainPlayerController obj )
+	override public void Execute( BaseController obj )
 	{
 		if ( Input.GetKeyDown( KeyCode.Space))
 		{
@@ -45,7 +45,7 @@ public class RunState : State< MainPlayerController >
 		}
 	}
 	
-	override public void Exit( MainPlayerController obj )
+	override public void Exit( BaseController obj )
 	{
 		
 	}

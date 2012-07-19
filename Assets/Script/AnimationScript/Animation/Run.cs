@@ -6,9 +6,9 @@ public class Run : BaseAnimation
 {	
 
 	//method of start
-	override public void start( MonoBehaviour mono , PlayerAnimationInfo info )
+	override public void start( BaseController controller , PlayerAnimationInfo info )
 	{
-		base.start( mono,  info );	
+		base.start( controller,  info );	
 
 		_am[info.getAniamtionID("run")].wrapMode = WrapMode.Loop;
 		_am[info.getAniamtionID("run")].layer = AnimationLayer.LOWEST;
@@ -61,21 +61,6 @@ public class Run : BaseAnimation
 	//method of update
 	override public void update()
 	{
-		/*
-		if ( _info.curState == PlayerAnimationState.RUN )
-		{
-			if ( _info.isTab )
-			{
-				_am.Stop( _info.getAniamtionID("run") );
-				_am.CrossFade( _info.getAniamtionID("run_tab") );
-			}
-			else
-			{
-				_am.Stop( _info.getAniamtionID("run_tab") );
-				_am.CrossFade( _info.getAniamtionID("run") );
-			}
-		}
-		*/
 	}	
 	
 	//get animationclip time 

@@ -1,82 +1,52 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 
-public class EventManager : Singleton< EventManager >
+public class EventManager : MonoBehaviour
 {
-	public delegate void EventHandler( CommentEvent e );
-	private Hashtable _eventTable; 
-	private List<CommentEvent> _msgList;
-			
-	public EventManager ()
+	//evnet name 
+	//进行攻击
+	public const string EVENT_ATTACK = "EVENT_ATTACK";
+	
+	
+	
+	private EventDispather _dipather = null;	
+	void Start()
 	{
-		_eventTable = new Hashtable();
-		_msgList = new List<CommentEvent>();
+		_dipather = new EventDispather();
 	}
 	
-	public void addEventListener( string eType,  EventHandler func )
+	
+	public void AddListener(string eventType, Callback handler)
 	{
-		if ( _eventTable != null )
+		if ( _dipather != null )
 		{
-			EventHandler handler = _eventTable[eType] as EventHandler;
-			if ( handler == null)
-			{
-				handler = new EventHandler( func );
-				_eventTable.Add( eType, func );
-			}
-			else
-			{
-				handler += func;
-			}
+			_dipather.AddListener( eventType, handler );
+		}
+	}
+		
+	public void RemoveListener(string eventType, Callback handler)
+	{
+		if ( _dipather != null )
+		{
+			_dipather.RemoveListener( eventType, handler );
 		}
 	}
 	
-	public void removeEventListener( string eType, EventHandler func )
+	public void Broadcast(string eventType)
 	{
-		if ( _eventTable != null )
+		if ( _dipather != null )
 		{
-			EventHandler handler = _eventTable[eType] as EventHandler;
-			if ( handler == null )
-			{
-				return;
-			}
-			else
-			{
-				handler -= func;
-			}
+			_dipather.Broadcast( eventType );
 		}
 	}
 	
-	
-	public void sendMsg( string eType )
+	public void Broadcast(string eventType, MessengerMode mode)
 	{
-		CommentEvent e = new CommentEvent( eType );
-		sendMsg ( e );
-	}
-	
-	
-	public void sendMsg( CommentEvent e )
-	{
-		_msgList.Add( e );
-	}
-	
-	public void Update()
-	{
-		if ( _msgList.Count > 0)
+		if ( _dipather != null )
 		{
-			for ( int i = 0 ; i < _msgList.Count ; i ++ )
-			{
-				CommentEvent e = _msgList[ i ] as CommentEvent;
-				EventHandler handler = _eventTable[e.eventType] as EventHandler;
-				if ( handler != null )
-				{
-					handler( e );
-				}
-			}
+			_dipather.Broadcast( eventType, mode );
 		}
-		//clear event list
-		_msgList.Clear();
+		
 	}
-
 }
 

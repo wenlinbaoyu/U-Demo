@@ -31,6 +31,7 @@ public class testCollision : MonoBehaviour {
 	*/
 	
 	
+	/*
 	void OnTriggerEnter ( Collider collider )
 	{
 		Debug.Log("test player OnTriggerEnter ");
@@ -49,5 +50,6 @@ public class testCollision : MonoBehaviour {
 		//Debug.Log("---------------------------");
 		//Debug.Log("name : " + collider.name );		
 	}
+	*/
 }
 	

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class AttackState : State< MainPlayerController >
+public class AttackState : State< BaseController >
 {
 	
 	public static AttackState intance = null;
@@ -17,13 +17,13 @@ public class AttackState : State< MainPlayerController >
 	
 	private AttackState (){}
 	
-	override public void Enter( MainPlayerController obj )
+	override public void Enter( BaseController obj )
 	{
 		obj.mgr.enter("attackHandler");
 		
 	}
 	
-	override public void Execute( MainPlayerController obj )
+	override public void Execute( BaseController obj )
 	{
 		obj.mgr.update("attackHandler");
 		
@@ -34,7 +34,7 @@ public class AttackState : State< MainPlayerController >
 		}
 	}
 	
-	override public void Exit( MainPlayerController obj )
+	override public void Exit( BaseController obj )
 	{
 		obj.mgr.exit("attackHandler");
 	}

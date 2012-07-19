@@ -13,7 +13,7 @@ public class EventCenter : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		EventManager.getSingleton().Update();
+		//EventManager.getSingleton().Update();
 	}
 }
 

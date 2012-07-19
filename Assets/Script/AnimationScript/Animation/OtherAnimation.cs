@@ -5,9 +5,9 @@ using UnityEngine;
 public class OtherAnimation : BaseAnimation
 {
 	//method of start
-	override public void start( MonoBehaviour mono , PlayerAnimationInfo info )
+	override public void start( BaseController controller , PlayerAnimationInfo info )
 	{
-		base.start( mono,  info );		
+		base.start( controller,  info );		
 		
 		_am[info.getAniamtionID("shoujian")].wrapMode = WrapMode.ClampForever;
 		_am[info.getAniamtionID("shoujian")].layer = AnimationLayer.NORMAL;
@@ -28,12 +28,12 @@ public class OtherAnimation : BaseAnimation
 			if ( !isTab )
 			{
 				_am.Play( _info.getAniamtionID("shoujian") );
-				_mono.StartCoroutine(EndAnimation(animationTime("shoujian")));
+				_controller.StartCoroutine(EndAnimation(animationTime("shoujian")));
 			}
 			else
 			{
 				_am.Play( _info.getAniamtionID("bajian") );
-				_mono.StartCoroutine(EndAnimation(animationTime("shoujian")));
+				_controller.StartCoroutine(EndAnimation(animationTime("shoujian")));
 			}
 		}
 		else

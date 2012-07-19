@@ -1,7 +1,7 @@
 using System;
 
 
-public class OtherState : State<MainPlayerController>
+public class OtherState : State<BaseController>
 {
 	public static OtherState intance = null;
 	public static OtherState getIntance()
@@ -15,12 +15,12 @@ public class OtherState : State<MainPlayerController>
 	
 	private OtherState (){}
 	
-	override public void Enter( MainPlayerController obj )
+	override public void Enter( BaseController obj )
 	{
 		obj.mgr.enter("otherHandler");
 	}
 	
-	override public void Execute( MainPlayerController obj )
+	override public void Execute( BaseController obj )
 	{
 		obj.mgr.update("otherHandler");
 		
@@ -31,7 +31,7 @@ public class OtherState : State<MainPlayerController>
 		}
 	}
 	
-	override public void Exit( MainPlayerController obj )
+	override public void Exit( BaseController obj )
 	{
 		obj.mgr.exit("otherHandler");
 	}	

@@ -18,12 +18,12 @@ public class AnimationManager
 	public delegate void CallBackHandler();
 	public delegate void CallBackHandlerWithParam( object obj );
 	
-	public AnimationManager ( MonoBehaviour mono, PlayerAnimationInfo info )
+	public AnimationManager ( BaseController controller, PlayerAnimationInfo info )
 	{
 		//_animation = mono.animation;
-		_playerName = mono.gameObject.name;
+		_playerName = controller.gameObject.name;
 		_info = info;
-		init( mono , info);
+		init( controller , info);
 	}
 	
 	/*
@@ -45,7 +45,7 @@ public class AnimationManager
 	*/
 	
 	
-	private void init( MonoBehaviour mono, PlayerAnimationInfo info )
+	private void init( BaseController controller, PlayerAnimationInfo info )
 	{
 		_amList = new Hashtable();
 		if ( info.hasHandler("runHandler"))  	  _amList.Add("runHandler",  createInstance( info.getHandler("runHandler") ) );
@@ -57,7 +57,7 @@ public class AnimationManager
 		
 		foreach ( DictionaryEntry de in _amList )
 		{
-			(de.Value as BaseAnimation).start( mono, info );
+			(de.Value as BaseAnimation).start( controller, info );
 		}
 	}
 	

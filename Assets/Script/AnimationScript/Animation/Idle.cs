@@ -5,9 +5,9 @@ using UnityEngine;
 public class Idle : BaseAnimation
 {	
 	//method of start
-	override public void start( MonoBehaviour mono , PlayerAnimationInfo info )
+	override public void start( BaseController controller , PlayerAnimationInfo info )
 	{
-		base.start( mono,  info );
+		base.start( controller,  info );
 		
 		_am[info.getAniamtionID("idle")].wrapMode = WrapMode.Loop;
 		_am[info.getAniamtionID("idle")].layer = AnimationLayer.LOWEST;
