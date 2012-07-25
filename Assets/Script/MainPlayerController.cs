@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof(AttackManager))]
@@ -26,6 +26,10 @@ public class MainPlayerController : BaseController
 	public float gravity = 2.0f;
 	//
 	public float groundedCheckOffset = -0.23f;
+	
+	public WeaponTrail weaponTrial;
+	
+	private WeaponTrailAnimation weaponTrailAnimation;
 	
     void Awake()
 	{
@@ -77,14 +81,38 @@ public class MainPlayerController : BaseController
 		{
 			Debug.LogError ( this.gameObject.name   + "cann't get some event manager ");
 		}
+		
+		weaponTrial.SetTime(0.0f, 0, 1);
+		
+		weaponTrailAnimation = new WeaponTrailAnimation();
+		weaponTrailAnimation.weaponTrial = weaponTrial;
 	}
 	
+    protected float t = 0.033f;
+	protected float timeScale = 1; // This is here for personal time distortion... like freeze spells that slow enemies... (changing this affects the animation rate)
+    
 	void Update () 
 	{	
 		if ( stateMachine != null)
 		{
 			stateMachine.update();
 		}
+		
+		if (Input.GetKeyDown(KeyCode.J)){
+			Debug.Log("fadeOut");
+			weaponTrial.FadeOut(0.5f);  // Fades the trail in				
+		}if (Input.GetKeyDown(KeyCode.K)){
+			Debug.Log("clearTrail");
+			weaponTrial.ClearTrail();
+		}else if(Input.GetMouseButton(0)){
+			weaponTrial.SetTime(2.1f, 0, 1);
+			Debug.Log("fadeIn");
+			weaponTrial.StartTrail(0.5f, 0.4f);  // Fades the trail in
+		}
+		
+		t = Mathf.Clamp (Time.deltaTime * timeScale, 0, 0.066f);
+		//
+		weaponTrailAnimation.SetDeltaTime (t); // Sets the delta time that the animationController uses.
 	}
 	
 	
@@ -102,6 +130,11 @@ public class MainPlayerController : BaseController
 		      transform.position + transform.up * -(groundedCheckOffset + groundedDistance));
 		*/
 	}
+	
+	protected virtual void LateUpdate ()
+	{
+		weaponTrailAnimation.LateUpdate();
+	}	
 	
 	override public void DirectionTurn()
 	{
