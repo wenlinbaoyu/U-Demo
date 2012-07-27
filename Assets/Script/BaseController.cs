@@ -15,8 +15,7 @@ abstract public class BaseController : MonoBehaviour
 	//动作管理
 	[HideInInspector]
 	public AnimationManager mgr = null;
-	
-	
+		
 	//状态机
 	[HideInInspector]
 	public StateMachine< BaseController > stateMachine = null;		
