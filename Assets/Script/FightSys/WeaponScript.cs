@@ -22,6 +22,15 @@ public class WeaponScript : MonoBehaviour
 		return tf;
 	}
 	
+	public AttackManager getPlayerAttackMgr( )
+	{
+		FightManager com = _topTrasnform.GetComponent<FightManager>();
+		return com.attackMgr;
+	}
 	
-	
+	public DamageManager getPlayerDamageMgr( )
+	{
+		FightManager com = _topTrasnform.GetComponent<FightManager>();
+		return com.demageMgr;
+	}	
 }
