@@ -1,0 +1,8 @@
+D:\Github\U-Demo\Temp\bin\Debug\Assembly-CSharp.dll
+D:\Github\U-Demo\Temp\bin\Debug\Assembly-CSharp.pdb
+D:\Github\U-Demo\Temp\bin\Debug\UnityEditor.dll
+D:\Github\U-Demo\Temp\bin\Debug\UnityEngine.dll
+D:\Github\U-Demo\Temp\bin\Debug\nunit.framework.dll
+D:\Github\U-Demo\obj\Debug\ResolveAssemblyReference.cache
+D:\Github\U-Demo\obj\Debug\Assembly-CSharp.dll
+D:\Github\U-Demo\obj\Debug\Assembly-CSharp.pdb
