@@ -21,7 +21,7 @@ public class AttackManager
 		_eventMsg = mgr;		
 		//regist attack event
 		_eventMsg.AddListener( EventManager.EVENT_ATTACK , attackHandler );		
-		//regist stop attack event
+		//regist stop attack eventd
 		_eventMsg.AddListener( EventManager.EVENT_STOP_ATTACK , stopAttackHandler );
 	}
 	

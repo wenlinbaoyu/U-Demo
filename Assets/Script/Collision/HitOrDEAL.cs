@@ -5,7 +5,6 @@ public class HitOrDEAL : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
 	}
 	
 	// Update is called once per frame
@@ -32,11 +31,7 @@ public class HitOrDEAL : MonoBehaviour {
 			obj = obj.parent;
 		}
 	}		
-
-	void OnTriggerExit ( Collider collider )
-	{
-		Debug.Log("test player OnTriggerExit ");
-	}	
+	
 	
 	void OnTriggerStay ( Collider collider )
 	{		

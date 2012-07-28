@@ -17,7 +17,11 @@ public class GlobalState : State<BaseController>
 	
 	override public void Enter( BaseController obj )
 	{
+		EventManager mgr = obj.eventMgr;
 		
+		//regist be hit listener
+		mgr.AddListener( EventManager.EVENT_BE_HIT, beHitHandler );
+		mgr.AddListener( EventManager.EVENT_DEAD , deadHandler );
 	}
 	
 	override public void Execute( BaseController obj )
@@ -28,6 +32,16 @@ public class GlobalState : State<BaseController>
 	override public void Exit( BaseController obj )
 	{
 		
-	}	
+	}
+	
+	private void beHitHandler()
+	{
+		
+	}
+	
+	private void deadHandler()
+	{
+		
+	}
 }
 

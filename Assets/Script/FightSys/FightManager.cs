@@ -31,10 +31,15 @@ public class FightManager : MonoBehaviour
 	// Update 
 	void OnTriggerEnter ( Collider collider )
 	{
-		Debug.Log("test player OnTriggerEnter ");
+		//Debug.Log( this.gameObject.name + "test player OnTriggerEnter ");
 		
 		if ( collider.tag == "WeaponTag")
 		{
+			animation.Stop("1013");
+			animation["1013"].wrapMode =WrapMode.Once;
+			animation.Play("1013");
+			
+			
 			WeaponScript ws = collider.GetComponent<WeaponScript>();
 			AttackManager amgr = ws.getPlayerAttackMgr();
 			amgr.addDamageList( demageMgr );

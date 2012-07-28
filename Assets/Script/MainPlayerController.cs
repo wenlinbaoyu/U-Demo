@@ -25,7 +25,7 @@ public class MainPlayerController : BaseController
 	//重力
 	public float gravity = 2.0f;
 	//
-	public float groundedCheckOffset = -0.23f;
+	public float groundedCheckOffset = -0.23f;	
 	
 	public WeaponTrail weaponTrial;
 	
@@ -42,6 +42,15 @@ public class MainPlayerController : BaseController
 	{	
 		//get CharacterController component
 		ccontroller = GetComponent<CharacterController>();
+		
+		//init event manager
+		eventMgr = GetComponent<EventManager>();
+		Debug.Log( eventMgr );
+		if ( eventMgr == null )
+		{
+			Debug.LogError ( this.gameObject.name   + "cann't get some event manager ");
+		}		
+		
 		
 		//create player animation info
 		_info = new PlayerAnimationInfo( 1, true );
@@ -74,13 +83,7 @@ public class MainPlayerController : BaseController
 		}
 		
 		
-		//init event manager
-		eventMgr = GetComponent<EventManager>();
-		Debug.Log( eventMgr );
-		if ( eventMgr == null )
-		{
-			Debug.LogError ( this.gameObject.name   + "cann't get some event manager ");
-		}
+
 		
 		weaponTrial.SetTime(0.0f, 0, 1);
 		
@@ -106,13 +109,17 @@ public class MainPlayerController : BaseController
 			weaponTrial.ClearTrail();
 		}else if(Input.GetMouseButton(0)){
 			weaponTrial.SetTime(2.1f, 0, 1);
-			Debug.Log("fadeIn");
+			//Debug.Log("fadeIn");
 			weaponTrial.StartTrail(0.5f, 0.4f);  // Fades the trail in
 		}
 		
 		t = Mathf.Clamp (Time.deltaTime * timeScale, 0, 0.066f);
 		//
-		weaponTrailAnimation.SetDeltaTime (t); // Sets the delta time that the animationController uses.
+		
+		if ( weaponTrailAnimation != null )
+		{
+			weaponTrailAnimation.SetDeltaTime (t); // Sets the delta time that the animationController uses.
+		}
 	}
 	
 	

@@ -20,6 +20,8 @@ abstract public class BaseController : MonoBehaviour
 	[HideInInspector]
 	public StateMachine< BaseController > stateMachine = null;		
 	
+	[HideInInspector]
+	public Transform weaponTransform = null;
 	
 	abstract public void DirectionTurn();
 	

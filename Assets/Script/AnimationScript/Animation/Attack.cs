@@ -58,7 +58,17 @@ public class Attack : BaseAnimation
 			
 			if ( attack_num == 0)
 			{
-				GameObject.Find("Bip002 Prop1").collider.enabled = true;
+				//if ( (_controller.weaponTransform != null) && (_controller.weaponTransform.collider != null) )
+				//{
+					//_controller.weaponTransform.collider.enabled = true;
+			//	}
+				
+				Transform tf = _controller.weaponTransform;
+				if ( tf != null && tf.collider != null )
+				{
+					tf.collider.enabled = true;
+				}
+				
 				
 				attack_num = 1;
 				_am.Play( _info.getAniamtionID("attack") );
@@ -91,7 +101,13 @@ public class Attack : BaseAnimation
 		}
 		else
 		{
-			GameObject.Find("Bip002 Prop1").collider.enabled = false;
+			Transform tf = _controller.weaponTransform;
+			if ( tf != null && tf.collider != null )
+			{
+				tf.collider.enabled = false;
+			}
+			
+			
 			playEndAnimation();
 		}
 	}
@@ -113,12 +129,6 @@ public class Attack : BaseAnimation
 		attack_num = 0;
 		_handleList.Clear();
 		_info.setAnimationState("ANMIATIONSTATE_FINISH", true);
-		
-		//发送攻击事件
-		if ( _controller.eventMgr != null )
-		{
-			_controller.eventMgr.Broadcast( EventManager.EVENT_STOP_ATTACK );
-		}
 	}
 	
 	private void doubleAttack()
