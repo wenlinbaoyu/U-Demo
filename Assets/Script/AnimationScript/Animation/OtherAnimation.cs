@@ -43,7 +43,10 @@ public class OtherAnimation : BaseAnimation
 	}
 	
 	//method of update
-	override public void update(){}
+	override public void update()
+	{
+		
+	}
 	
 	//get animationclip time 
 	override public float animationTime( string animationName )

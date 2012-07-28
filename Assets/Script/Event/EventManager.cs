@@ -7,14 +7,15 @@ public class EventManager : MonoBehaviour
 	//进行攻击
 	public const string EVENT_ATTACK = "EVENT_ATTACK";
 	public const string EVENT_STOP_ATTACK = "EVENT_STOP_ATTACK";
-	
+	public const string EVENT_BE_HIT = "EVENT_BE_HIT";
+	public const string EVENT_DEAD   = "EVENT_DEAD";
 	
 	private EventDispather _dipather = null;	
-	void Start()
+	
+	void Awake()
 	{
 		_dipather = new EventDispather();
 	}
-	
 	
 	public void AddListener(string eventType, Callback handler)
 	{

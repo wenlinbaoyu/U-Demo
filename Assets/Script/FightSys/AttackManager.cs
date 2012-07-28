@@ -15,13 +15,13 @@ public class AttackManager
 	// Use this for initialization
 	public AttackManager ( EventManager mgr ) 
 	{
-		_attackDamageList = new Hashtable();
+		_attackDamageList = new List<DamageManager>();
 		_attackDamageList.Clear();
 		
 		_eventMsg = mgr;		
 		//regist attack event
-		_eventMsg.AddListener( EventManager.EVENT_ATTACK , attack );		
-		//regist stop attack event
+		_eventMsg.AddListener( EventManager.EVENT_ATTACK , attackHandler );		
+		//regist stop attack eventd
 		_eventMsg.AddListener( EventManager.EVENT_STOP_ATTACK , stopAttackHandler );
 	}
 	
@@ -32,7 +32,7 @@ public class AttackManager
 		{
 			while ( _attackDamageList.Count > 0 )
 			{
-				DamageManager dm = _attackPlayerList[0] as DamageManager;
+				DamageManager dm = _attackDamageList[0] as DamageManager;
 				dm.applyDamage();
 				
 				//delete frist item
@@ -41,6 +41,12 @@ public class AttackManager
 		}
 	}
 	
+	
+	public void addDamageList( DamageManager mgr )
+	{
+		if ( mgr == null ) return; 
+		_attackDamageList.Add( mgr );
+	}
 	
 	//attack call back function
 	private void attackHandler()
@@ -52,6 +58,7 @@ public class AttackManager
 	private void stopAttackHandler()
 	{
 		isAttack = false;
-		_attackDamageList.Clear();
+		///_attackDamageList.Clear();
 	}
+	
 }

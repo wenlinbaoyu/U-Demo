@@ -9,7 +9,7 @@ public class MainUI : MonoBehaviour {
 	}
 	
 	void Awake(){
-		Application.LoadLevel(2);
+		Application.LoadLevel(1);
 	}
 	
 	// Update is called once per frame

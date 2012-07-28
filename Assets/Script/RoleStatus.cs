@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+
 public class RoleStatus : MonoBehaviour 
 {
 	public enum Status
@@ -23,11 +24,11 @@ public class RoleStatus : MonoBehaviour
 	
 	//当前血量
 	[HideInInspector]
-	public int _curHP = MAX_HP;
+	public int curHP = MAX_HP;
 	
 	//当前魔法值
 	[HideInInspector]
-	public int _curMP = MAX_MP;
+	public int curMP = MAX_MP;
 	
 	//是否死亡 
 	[HideInInspector]
