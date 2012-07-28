@@ -6,7 +6,7 @@ public class EventManager : MonoBehaviour
 	//evnet name 
 	//进行攻击
 	public const string EVENT_ATTACK = "EVENT_ATTACK";
-	
+	public const string EVENT_STOP_ATTACK = "EVENT_STOP_ATTACK";
 	
 	
 	private EventDispather _dipather = null;	
@@ -46,7 +46,6 @@ public class EventManager : MonoBehaviour
 		{
 			_dipather.Broadcast( eventType, mode );
 		}
-		
 	}
 }
 

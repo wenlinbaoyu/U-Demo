@@ -41,6 +41,13 @@ public class Attack : BaseAnimation
 	{
 		if (  Input.GetButtonDown("Fire1") )
 		{
+			
+			//发送攻击事件
+			if ( _controller.eventMgr != null )
+			{
+				_controller.eventMgr.Broadcast( EventManager.EVENT_ATTACK );
+			}
+			
 			_info.setAnimationState("ANMIATIONSTATE_FINISH", false);
 			bool isGround = (bool)_info.getAnimationState("ANMIATIONSTATE_ISGROUND");
 			if ( !isGround )
@@ -106,6 +113,12 @@ public class Attack : BaseAnimation
 		attack_num = 0;
 		_handleList.Clear();
 		_info.setAnimationState("ANMIATIONSTATE_FINISH", true);
+		
+		//发送攻击事件
+		if ( _controller.eventMgr != null )
+		{
+			_controller.eventMgr.Broadcast( EventManager.EVENT_STOP_ATTACK );
+		}
 	}
 	
 	private void doubleAttack()

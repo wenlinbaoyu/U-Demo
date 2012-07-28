@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof(AttackManager))]
+
 public class MainPlayerController : BaseController 
 {
 	private const float groundedDistance = 0.26f;
@@ -144,10 +144,10 @@ public class MainPlayerController : BaseController
 		
 			float vertical_value   = Input.GetAxis("Vertical");
 			float horizontal_value = Input.GetAxis("Horizontal");
-			float x = Mathf.Abs( horizontal_value );
-			float z = Mathf.Abs( vertical_value );
+			//float x = Mathf.Abs( horizontal_value );
+			//float z = Mathf.Abs( vertical_value );
 			
-			bool is_click = false; //是否按前后键
+			bool is_click = false;
 			float y_angel = mainCameraRotation.eulerAngles.y;
 		
 			if ( Input.GetButton("Vertical") )
