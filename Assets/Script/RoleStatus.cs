@@ -14,7 +14,21 @@ public class RoleStatus : MonoBehaviour
 		// 中毒
 		STATUS_POISON = 1, 
 	}
-
+	
+	[HideInInspector]
+	public enum PlayerType
+	{
+		PLAYER ,
+		PLAYER_OTHER,
+		NPC,
+		ENEMY,
+		ROLE_UNKNOWN,
+	}
+	
+	//当前角色是否主角
+	[HideInInspector]
+	PlayerType playerType = PlayerType.ROLE_UNKNOWN;
+	
 	//当前状态
 	[HideInInspector]
 	public Status roleStatue = Status.STATUS_NOMORL;

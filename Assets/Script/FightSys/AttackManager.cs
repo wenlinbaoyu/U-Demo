@@ -49,13 +49,13 @@ public class AttackManager
 	}
 	
 	//attack call back function
-	private void attackHandler()
+	private void attackHandler( CommentEvent e )
 	{
 		isAttack = true;
 	}
 	
 	//stop attack call back function
-	private void stopAttackHandler()
+	private void stopAttackHandler( CommentEvent e )
 	{
 		isAttack = false;
 		///_attackDamageList.Clear();

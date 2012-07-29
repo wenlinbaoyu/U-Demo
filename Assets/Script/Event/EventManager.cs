@@ -11,13 +11,15 @@ public class EventManager : MonoBehaviour
 	public const string EVENT_DEAD   = "EVENT_DEAD";
 	
 	private EventDispather _dipather = null;	
-	
+	//private EventDispather< CommentEvent > _dipather;
+		
 	void Awake()
 	{
+		//_dipather = new EventDispather<CommentEvent> ();
 		_dipather = new EventDispather();
 	}
 	
-	public void AddListener(string eventType, Callback handler)
+	public void AddListener(string eventType, EventCallback handler)
 	{
 		if ( _dipather != null )
 		{
@@ -25,7 +27,7 @@ public class EventManager : MonoBehaviour
 		}
 	}
 		
-	public void RemoveListener(string eventType, Callback handler)
+	public void RemoveListener(string eventType, EventCallback handler)
 	{
 		if ( _dipather != null )
 		{
@@ -33,19 +35,25 @@ public class EventManager : MonoBehaviour
 		}
 	}
 	
-	public void Broadcast(string eventType)
+	public void Broadcast( string evetnType )
+	{
+		Broadcast( new CommentEvent( evetnType ));
+	}
+	
+	
+	public void Broadcast( CommentEvent e )
 	{
 		if ( _dipather != null )
 		{
-			_dipather.Broadcast( eventType );
+			_dipather.Broadcast( e );
 		}
 	}
 	
-	public void Broadcast(string eventType, MessengerMode mode)
+	public void Broadcast(CommentEvent e, MessengerMode mode)
 	{
 		if ( _dipather != null )
 		{
-			_dipather.Broadcast( eventType, mode );
+			_dipather.Broadcast( e, mode );
 		}
 	}
 }

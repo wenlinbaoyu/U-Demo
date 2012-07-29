@@ -110,6 +110,10 @@ public class PlayerAnimationInfo
 		_animationState.Add( "ANMIATIONSTATE_JUMPTYPE", "");
 		
 		_animationState.Add( "ANMIATIONSTATE_FINISH", false);
+		
+		_animationState.Add( "ANMIATIONSTATE_BEHIT" , false);
+		
+		_animationState.Add( "ANMIATIONSTATE_DEAD" , false);
 	}
 	
 	private void init()

@@ -22,6 +22,15 @@ public class DamageManager
 	public void applyDamage( )
 	{
 		_status.curHP -= 10;
+		
+		if ( _status.curHP > 0 )
+		{
+			_eventMsg.Broadcast( EventManager.EVENT_BE_HIT );
+		}
+		else
+		{
+			_eventMsg.Broadcast( EventManager.EVENT_DEAD );
+		}
 		Debug.Log( "Hit role hp " + _status.curHP );
 	}
 }

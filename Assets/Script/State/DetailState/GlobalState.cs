@@ -34,14 +34,29 @@ public class GlobalState : State<BaseController>
 		
 	}
 	
-	private void beHitHandler()
+	private void beHitHandler( CommentEvent e )
 	{
+		if ( e == null ) return;
 		
+		
+		BaseController obj = ( e as AnimationControllerEvent ).getController();
+		if ( obj != null )
+		{
+			obj.mgr.setPlayerAnimationState( "ANMIATIONSTATE_BEHIT", true );
+			obj.stateMachine.changeState( OtherState.getIntance() );
+		}
 	}
 	
-	private void deadHandler()
+	private void deadHandler( CommentEvent e ) 
 	{
+		if ( e == null ) return;
 		
+		BaseController obj = ( e as AnimationControllerEvent ).getController();
+		if ( obj != null )
+		{
+			obj.mgr.setPlayerAnimationState( "ANMIATIONSTATE_DEAD", true );
+			obj.stateMachine.changeState( OtherState.getIntance() );
+		}
 	}
 }
 

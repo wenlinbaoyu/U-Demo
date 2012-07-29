@@ -66,7 +66,7 @@ internal class DispatherInternal
     }
 }
 
-
+/*
 public class EventDispather
 {
 	private DispatherInternal dispather = new DispatherInternal();
@@ -104,38 +104,39 @@ public class EventDispather
         }
     }
 }
-
-
-
-public class EventDispather<T> 
+*/
+public delegate void EventCallback( CommentEvent arg1 );
+public class EventDispather
 {
     private DispatherInternal dispather = new DispatherInternal();
 
-    public void AddListener(string eventType, Callback<T> handler) 
+    public void AddListener(string eventType, EventCallback handler) 
 	{
-        dispather.OnListenerAdding(eventType, handler);
-        dispather.eventTable[eventType] = (Callback<T>)dispather.eventTable[eventType] + handler;
+        dispather.OnListenerAdding( eventType, handler );
+        dispather.eventTable[eventType] = (EventCallback)dispather.eventTable[eventType] + handler;
     }
 
-    public void RemoveListener(string eventType, Callback<T> handler) 
+    public void RemoveListener(string eventType, EventCallback handler) 
 	{
         dispather.OnListenerRemoving(eventType, handler);
-        dispather.eventTable[eventType] = (Callback<T>)dispather.eventTable[eventType] - handler;
+        dispather.eventTable[eventType] = (EventCallback)dispather.eventTable[eventType] - handler;
         dispather.OnListenerRemoved(eventType);
     }
 
-    public void Broadcast(string eventType, T arg1) 
+    public void Broadcast( CommentEvent e ) 
 	{
-        Broadcast(eventType, arg1, dispather.DEFAULT_MODE);
+        Broadcast(e, dispather.DEFAULT_MODE);
     }
 
-    public void Broadcast(string eventType, T arg1, MessengerMode mode) {
+    public void Broadcast(CommentEvent e, MessengerMode mode) 
+	{
+		string eventType = e.eventType;
         dispather.OnBroadcasting(eventType, mode);
         Delegate d;
         if (dispather.eventTable.TryGetValue(eventType, out d)) {
-            Callback<T> callback = d as Callback<T>;
+            EventCallback callback = d as EventCallback;
             if (callback != null) {
-                callback(arg1);
+                callback(e);
             } else {
                 throw dispather.CreateBroadcastSignatureException(eventType);
             }
@@ -144,6 +145,7 @@ public class EventDispather<T>
 }
 
 
+/*
 // Two parameters
 public class EventDispather<T, U> {
     private DispatherInternal dispather = new DispatherInternal();
@@ -214,3 +216,4 @@ public class EventDispather<T, U, V> {
         }
     }
 }
+*/

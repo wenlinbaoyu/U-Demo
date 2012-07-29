@@ -16,11 +16,28 @@ public class OtherAnimation : BaseAnimation
 		_am[info.getAniamtionID("bajian")].wrapMode = WrapMode.ClampForever;
 		_am[info.getAniamtionID("bajian")].layer = AnimationLayer.NORMAL;
 		_am[info.getAniamtionID("bajian")].weight = 100;
+		
+
+		//be hit animation
+		_am[info.getAniamtionID("hit")].wrapMode = WrapMode.Once;
+		_am[info.getAniamtionID("hit")].layer = AnimationLayer.NORMAL;
+		_am[info.getAniamtionID("hit")].weight = 100;
+	
+		
+		_am[info.getAniamtionID("hit")].wrapMode = WrapMode.Once;
+		_am[info.getAniamtionID("hit")].layer = AnimationLayer.HIGH;
+		_am[info.getAniamtionID("hit")].weight = 100;		
+		
+		
+		_am[info.getAniamtionID("dead")].wrapMode = WrapMode.ClampForever;
+		_am[info.getAniamtionID("dead")].layer = AnimationLayer.HIGH;
+		_am[info.getAniamtionID("dead")].weight = 100;			
 	}
 	
 	override public void enter()
 	{
-		_info.setAnimationState("ANMIATIONSTATE_FINISH", false);
+		//_info.setAnimationState("ANMIATIONSTATE_FINISH", false);
+		
 		if ( Input.GetKeyDown( KeyCode.Tab ) )
 		{
 			bool isTab = (bool)_info.getAnimationState("ANMIATIONSTATE_ISTAB");
@@ -36,8 +53,22 @@ public class OtherAnimation : BaseAnimation
 				_controller.StartCoroutine(EndAnimation(animationTime("shoujian")));
 			}
 		}
+		else if ( (bool)_info.getAnimationState("ANMIATIONSTATE_BEHIT"))
+		{
+			_am.Stop( _info.getAniamtionID("hit") );
+			_am.Play( _info.getAniamtionID("hit") );
+			_controller.StartCoroutine(EndAnimation(animationTime("hit")));
+		}
+		else if( (bool)_info.getAnimationState("ANMIATIONSTATE_BEHIT") )
+		{
+			_am.Play( _info.getAniamtionID("dead") );
+		}
 		else
 		{
+			_controller.eventMgr.Broadcast( 
+				new AnimationControllerEvent( AnimationControllerEvent.EVENT_ANIMATION_FINISH, _controller )
+				);
+			
 			_info.setAnimationState("ANMIATIONSTATE_FINISH", true);
 		}
 	}
@@ -57,7 +88,11 @@ public class OtherAnimation : BaseAnimation
 	private IEnumerator EndAnimation( float second )
 	{
 		yield return new WaitForSeconds( second );
-		_info.setAnimationState("ANMIATIONSTATE_FINISH", true);
+		
+		_controller.eventMgr.Broadcast( 
+			new AnimationControllerEvent( AnimationControllerEvent.EVENT_ANIMATION_FINISH, _controller )
+			);
+		//_info.setAnimationState("ANMIATIONSTATE_FINISH", true);
 	}
 }
 

@@ -35,10 +35,11 @@ public class FightManager : MonoBehaviour
 		
 		if ( collider.tag == "WeaponTag")
 		{
+			/*
 			animation.Stop("1013");
 			animation["1013"].wrapMode =WrapMode.Once;
 			animation.Play("1013");
-			
+			*/
 			
 			WeaponScript ws = collider.GetComponent<WeaponScript>();
 			AttackManager amgr = ws.getPlayerAttackMgr();
