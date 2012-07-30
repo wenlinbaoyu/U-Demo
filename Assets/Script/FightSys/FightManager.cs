@@ -9,23 +9,26 @@ public class FightManager : MonoBehaviour
 	
 	private RoleStatus _status = null;
 	private EventManager _eventMsg = null;
-	
+	private BaseController _controller = null;
 	// Use this for initialization
-	void Start () 
+	void Start () {}
+	
+	public void init( BaseController controller )
 	{
 		_eventMsg = GetComponent<EventManager>();
 		_status   = GetComponent<RoleStatus>();
+		_controller = controller;
 		
 		attackMgr = new AttackManager( _eventMsg );
 		
-		demageMgr = new DamageManager( _eventMsg, _status);
+		demageMgr = new DamageManager( _eventMsg, _status, _controller);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		attackMgr.Update();
-		demageMgr.Update();
+		if ( attackMgr != null ) attackMgr.Update();
+		if ( demageMgr != null ) demageMgr.Update();
 	}
 	
 	// Update 
@@ -35,11 +38,11 @@ public class FightManager : MonoBehaviour
 		
 		if ( collider.tag == "WeaponTag")
 		{
-			/*
-			animation.Stop("1013");
-			animation["1013"].wrapMode =WrapMode.Once;
-			animation.Play("1013");
-			*/
+			if ( _controller == null ) return ;
+			
+			
+			//if player is death , then do nothng and return
+			if ( _status != null && _status.roleStatue == RoleStatus.Status.STATUE_DEAD) return;
 			
 			WeaponScript ws = collider.GetComponent<WeaponScript>();
 			AttackManager amgr = ws.getPlayerAttackMgr();

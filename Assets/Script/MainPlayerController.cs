@@ -49,8 +49,14 @@ public class MainPlayerController : BaseController
 		if ( eventMgr == null )
 		{
 			Debug.LogError ( this.gameObject.name   + "cann't get some event manager ");
-		}		
+		}
 		
+		//init fight FightManager
+		FightManager fmgr = GetComponent<FightManager>();
+		if ( fmgr != null )
+		{
+			fmgr.init( this );
+		}
 		
 		//create player animation info
 		_info = new PlayerAnimationInfo( 1, true );
@@ -83,6 +89,8 @@ public class MainPlayerController : BaseController
 		}
 		
 		
+		
+		//reigist deat aniamtion
 
 		
 		weaponTrial.SetTime(0.0f, 0, 1);

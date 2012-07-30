@@ -4,6 +4,7 @@ using System.Collections;
 [RequireComponent (typeof(Animation))]
 [RequireComponent (typeof(CharacterController))]
 [RequireComponent (typeof(EventManager))]
+[RequireComponent (typeof(FightManager))]
 abstract public class BaseController : MonoBehaviour 
 {
 	[HideInInspector]

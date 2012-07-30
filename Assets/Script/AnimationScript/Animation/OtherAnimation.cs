@@ -58,10 +58,12 @@ public class OtherAnimation : BaseAnimation
 			_am.Stop( _info.getAniamtionID("hit") );
 			_am.Play( _info.getAniamtionID("hit") );
 			_controller.StartCoroutine(EndAnimation(animationTime("hit")));
+			_info.setAnimationState("ANMIATIONSTATE_BEHIT", false );
 		}
-		else if( (bool)_info.getAnimationState("ANMIATIONSTATE_BEHIT") )
+		else if( (bool)_info.getAnimationState("ANMIATIONSTATE_DEAD") )
 		{
 			_am.Play( _info.getAniamtionID("dead") );
+			_info.setAnimationState("ANMIATIONSTATE_DEAD", false );
 		}
 		else
 		{

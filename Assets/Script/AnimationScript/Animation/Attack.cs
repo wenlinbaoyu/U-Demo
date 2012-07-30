@@ -128,6 +128,9 @@ public class Attack : BaseAnimation
 	{
 		attack_num = 0;
 		_handleList.Clear();
+		Debug.Log("attack end ");
+		
+		
 		_info.setAnimationState("ANMIATIONSTATE_FINISH", true);
 	}
 	

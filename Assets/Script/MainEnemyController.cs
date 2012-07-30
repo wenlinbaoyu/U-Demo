@@ -17,7 +17,14 @@ public class MainEnemyController : BaseController
 		if ( eventMgr == null )
 		{
 			Debug.LogError ( this.gameObject.name   + "cann't get some event manager ");
-		}		
+		}
+		
+		//init fight FightManager
+		FightManager fmgr = GetComponent<FightManager>();
+		if ( fmgr != null )
+		{
+			fmgr.init( this );
+		}
 		
 		//create player animation info
 		_info = new PlayerAnimationInfo( 1, true );

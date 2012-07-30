@@ -6,13 +6,15 @@ public class RoleStatus : MonoBehaviour
 {
 	public const string EVENT_UPDATE_HP = "EVENT_UPDATE_HP";
 	public const string EVENT_UPDATE_MP = "EVENT_UPDATE_MP";
-	
+
 	public enum Status
 	{
 		//正常
 		STATUS_NOMORL = 0,
 		// 中毒
-		STATUS_POISON = 1, 
+		STATUS_POISON = 1,
+		//死亡
+		STATUE_DEAD = 2,
 	}
 	
 	[HideInInspector]
@@ -27,7 +29,7 @@ public class RoleStatus : MonoBehaviour
 	
 	//当前角色是否主角
 	[HideInInspector]
-	PlayerType playerType = PlayerType.ROLE_UNKNOWN;
+	public PlayerType playerType = PlayerType.ROLE_UNKNOWN;
 	
 	//当前状态
 	[HideInInspector]

@@ -137,8 +137,11 @@ public class EventDispather
             EventCallback callback = d as EventCallback;
             if (callback != null) {
                 callback(e);
-            } else {
-                throw dispather.CreateBroadcastSignatureException(eventType);
+            } 
+			else 
+			{
+				
+      			throw dispather.CreateBroadcastSignatureException(eventType);
             }
         }
     }

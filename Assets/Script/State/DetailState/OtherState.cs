@@ -17,8 +17,8 @@ public class OtherState : State<BaseController>
 	
 	override public void Enter( BaseController obj )
 	{
-		obj.mgr.enter("otherHandler");
 		obj.eventMgr.AddListener( AnimationControllerEvent.EVENT_ANIMATION_FINISH, animationFinish );
+		obj.mgr.enter("otherHandler");
 	}
 	
 	override public void Execute( BaseController obj )

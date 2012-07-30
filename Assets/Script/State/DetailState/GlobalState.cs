@@ -1,5 +1,5 @@
 using System;
-
+using UnityEngine;
 
 public class GlobalState : State<BaseController>
 {
@@ -17,8 +17,10 @@ public class GlobalState : State<BaseController>
 	
 	override public void Enter( BaseController obj )
 	{
+
 		EventManager mgr = obj.eventMgr;
-		
+		Debug.Log("global state : ");
+		Debug.Log( mgr );
 		//regist be hit listener
 		mgr.AddListener( EventManager.EVENT_BE_HIT, beHitHandler );
 		mgr.AddListener( EventManager.EVENT_DEAD , deadHandler );
