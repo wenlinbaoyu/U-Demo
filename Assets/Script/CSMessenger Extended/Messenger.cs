@@ -64,7 +64,7 @@ static internal class MessengerInternal
 
     static public void OnBroadcasting(string eventType, MessengerMode mode) {
         if (mode == MessengerMode.REQUIRE_LISTENER && !eventTable.ContainsKey(eventType)) {
-            throw new MessengerInternal.BroadcastException(string.Format("Broadcasting message {0} but no listener found.", eventType));
+            //throw new MessengerInternal.BroadcastException(string.Format("Broadcasting message {0} but no listener found.", eventType));
         }
     }
 
@@ -112,7 +112,7 @@ static public class Messenger {
             if (callback != null) {
                 callback();
             } else {
-                throw MessengerInternal.CreateBroadcastSignatureException(eventType);
+                //throw MessengerInternal.CreateBroadcastSignatureException(eventType);
             }
         }
     }
@@ -145,7 +145,7 @@ static public class Messenger<T> {
             if (callback != null) {
                 callback(arg1);
             } else {
-                throw MessengerInternal.CreateBroadcastSignatureException(eventType);
+                //throw MessengerInternal.CreateBroadcastSignatureException(eventType);
             }
         }
     }
@@ -179,7 +179,7 @@ static public class Messenger<T, U> {
             if (callback != null) {
                 callback(arg1, arg2);
             } else {
-                throw MessengerInternal.CreateBroadcastSignatureException(eventType);
+                //throw MessengerInternal.CreateBroadcastSignatureException(eventType);
             }
         }
     }
@@ -213,7 +213,7 @@ static public class Messenger<T, U, V> {
             if (callback != null) {
                 callback(arg1, arg2, arg3);
             } else {
-                throw MessengerInternal.CreateBroadcastSignatureException(eventType);
+               // throw MessengerInternal.CreateBroadcastSignatureException(eventType);
             }
         }
     }
